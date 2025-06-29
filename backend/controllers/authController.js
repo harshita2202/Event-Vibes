@@ -3,8 +3,9 @@
 const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const generateToken = require("../utils/generateToken");
+const adminEmails = process.env.ADMIN_EMAILS.split(",");
 
-// @route POST /api/auth/register
+
 exports.register = async (req, res) => {
   const { name, email, password } = req.body;
 
@@ -21,10 +22,13 @@ exports.register = async (req, res) => {
   const salt = await bcrypt.genSalt(10);
   const hash = await bcrypt.hash(password, salt);
 
+  const role = adminEmails.includes(email) ? "admin" : "user";
+
   const newUser = new User({
     name,
     email,
-    passwordHash: hash
+    passwordHash: hash,
+    role
   });
 
   await newUser.save();

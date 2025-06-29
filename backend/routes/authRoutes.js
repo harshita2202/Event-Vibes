@@ -1,5 +1,3 @@
-//This file defines the endpoints or "URLs" like
-
 const express = require("express");
 const router = express.Router();
 const { register, login } = require("../controllers/authController");
