@@ -1,5 +1,4 @@
 import { createContext, useContext, useState, useEffect } from "react";
-// We'll create this in Step 4
 
 const AuthContext = createContext();
 
@@ -31,5 +30,5 @@ export const AuthProvider = ({ children }) => {
   );
 };
 
-// Custom hook
+
 export const useAuth = () => useContext(AuthContext);
