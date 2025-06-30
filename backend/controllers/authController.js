@@ -1,4 +1,4 @@
-//This file contains the actual logic behind your register and login functionality.
+//This file contains the actual logic behind register and login functionality.
 
 const User = require("../models/User");
 const bcrypt = require("bcryptjs");

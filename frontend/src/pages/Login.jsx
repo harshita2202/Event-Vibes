@@ -32,7 +32,11 @@ const Login = () => {
     try {
       const res = await axios.post('/auth/login', signInData);
       login(res.data.user, res.data.token);
-      navigate('/folder'); // Always redirect to Folder page
+      if (res.data.user.role === 'admin') {
+        navigate('/admin');
+      } else {
+        navigate('/user');
+      }
     } catch (err) {
       alert(err.response?.data?.error || 'Login failed');
     }
@@ -43,7 +47,11 @@ const Login = () => {
     try {
       const res = await axios.post('/auth/register', signUpData);
       login(res.data.user, res.data.token);
-      navigate('/folder'); // Always redirect to Folder page
+      if (res.data.user.role === 'admin') {
+        navigate('/admin');
+      } else {
+        navigate('/user');
+      }
     } catch (err) {
       alert(err.response?.data?.error || 'Registration failed');
     }
@@ -80,7 +88,7 @@ const Login = () => {
                 className="eye-icon"
                 onClick={() => setShowPassword(!showPassword)}
               >
-                {showPassword ? <FaEyeSlash /> : <FaEye />}
+                {showPassword ? <FaEye /> : <FaEyeSlash />}
               </span>
             </div>
           </label>
@@ -143,7 +151,7 @@ const Login = () => {
                   className="eye-icon"
                   onClick={() => setShowSignupPassword(!showSignupPassword)}
                 >
-                  {showSignupPassword ? <FaEyeSlash /> : <FaEye />}
+                  {showSignupPassword ? <FaEye /> : <FaEyeSlash />}
                 </span>
               </div>
             </label>

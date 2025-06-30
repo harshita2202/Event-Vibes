@@ -1,0 +1,63 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /* This is key to vertical alignment */
+  padding: 12px 24px;
+  border-bottom: 1px solid #ededed;
+  background-color: #fff;
+}
+
+.navbar-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.navbar-logo img {
+  width: 24px;
+  height: 24px;
+  display: block; /* Prevent any default image baseline shift */
+}
+
+.navbar-logo h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #141414;
+  margin: 0;
+  line-height: 1; /* Align better with icon */
+}
+
+.navbar-links {
+  display: flex;
+  align-items: center; /* Align text vertically */
+  gap: 24px;
+}
+
+.navbar-links a,
+.navbar-links a:visited,
+.navbar-links a:focus,
+.navbar-links a:active {
+  display: inline-block;
+  color: #141414;
+  text-decoration: none !important;
+  font-size: 0.95rem;
+  font-weight: 500;
+  position: relative;
+  padding-bottom: 4px;
+  line-height: 1.5;
+}
+
+.navbar-links a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0%;
+  height: 2px;
+  background-color: #141414;
+  transition: width 0.3s ease;
+}
+
+.navbar-links a:hover::after {
+  width: 100%;
+}

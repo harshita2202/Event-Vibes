@@ -4,12 +4,17 @@ import { AuthProvider, useAuth } from "./contexts/AuthContext";
 
 import Home from "./pages/HomePage";
 import Login from "./pages/Login";
-import Folder from "./pages/Folder";
+import AdminDashboard from "./pages/AdminDashboard";
+import UserDashboard from "./pages/UserDashboard";
 
-// Inline private route wrapper
-const ProtectedRoute = ({ children }) => {
+// Role-based ProtectedRoute
+const ProtectedRoute = ({ children, allowedRoles }) => {
   const { user } = useAuth();
-  return user ? children : <Navigate to="/login" replace />;
+  if (!user) return <Navigate to="/login" replace />;
+  if (allowedRoles && !allowedRoles.includes(user.role)) {
+    return <Navigate to="/" replace />;
+  }
+  return children;
 };
 
 function App() {
@@ -20,10 +25,18 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route
-            path="/folder"
+            path="/admin"
             element={
-              <ProtectedRoute>
-                <Folder />
+              <ProtectedRoute allowedRoles={["admin"]}>
+                <AdminDashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/user"
+            element={
+              <ProtectedRoute allowedRoles={["user"]}>
+                <UserDashboard />
               </ProtectedRoute>
             }
           />

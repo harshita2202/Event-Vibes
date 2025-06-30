@@ -1,15 +1,16 @@
 const Media = require("../models/Media");
+const cloudinary = require('../config/Cloudinary');
 
 exports.uploadMedia = async (req, res) => {
-  const { url, caption, mediaType, eventId } = req.body;
+  const { caption, mediaType, eventId } = req.body;
 
-  if (!url || !mediaType || !eventId) {
+  if (!req.file || !mediaType || !eventId) {
     return res.status(400).json({ error: "All required fields must be provided" });
   }
 
   try {
     const media = new Media({
-      url,
+      url: req.file.path,
       caption,
       mediaType,
       eventId,
@@ -24,23 +25,22 @@ exports.uploadMedia = async (req, res) => {
   }
 };
 
-
 exports.deleteMedia = async (req, res) => {
   try {
     const media = await Media.findById(req.params.id);
-
-    if (!media) {
-      return res.status(404).json({ error: "Media not found" });
-    }
+    if (!media) return res.status(404).json({ error: "Media not found" });
 
     if (
       media.uploaderId.toString() !== req.user._id.toString() &&
       req.user.role !== "admin"
     ) {
-      return res.status(403).json({ error: "Not authorized to delete this media" });
+      return res.status(403).json({ error: "Not authorized" });
     }
 
+    const publicId = media.url.split('/').pop().split('.')[0];
+    await cloudinary.uploader.destroy(publicId);
     await media.remove();
+
     res.json({ message: "Media deleted successfully" });
   } catch (err) {
     console.error("Delete error:", err);
