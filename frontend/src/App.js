@@ -1,12 +1,16 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { AuthProvider } from "./contexts/AuthContext";
-import PrivateRoute from "./PrivateRoutes";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { AuthProvider, useAuth } from "./contexts/AuthContext";
 
 import Home from "./pages/HomePage";
 import Login from "./pages/Login";
-import AdminDashboard from "./pages/AdminDashboard";
-import UserDashboard from "./pages/UserDashboard";
+import Folder from "./pages/Folder";
+
+// Inline private route wrapper
+const ProtectedRoute = ({ children }) => {
+  const { user } = useAuth();
+  return user ? children : <Navigate to="/login" replace />;
+};
 
 function App() {
   return (
@@ -16,19 +20,11 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route
-            path="/admin"
+            path="/folder"
             element={
-              <PrivateRoute role="admin">
-                <AdminDashboard />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/user"
-            element={
-              <PrivateRoute role="user">
-                <UserDashboard />
-              </PrivateRoute>
+              <ProtectedRoute>
+                <Folder />
+              </ProtectedRoute>
             }
           />
         </Routes>
