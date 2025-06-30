@@ -52,6 +52,7 @@ const Login = () => {
   };
 
   return (
+  <div className="login-wrapper">
     <div className={`cont ${isSignup ? 's--signup' : ''}`}>
       <form className="form sign-in" onSubmit={handleSignIn}>
         <h2>Welcome</h2>
@@ -154,7 +155,8 @@ const Login = () => {
         </form>
       </div>
     </div>
-  );
+  </div>
+);
 };
 
 export default Login;

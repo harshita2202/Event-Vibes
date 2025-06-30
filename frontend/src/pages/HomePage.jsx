@@ -8,17 +8,21 @@ const Home = () => {
 
   return (
     <div className="home-container">
+      <nav className="navbar">
+        <div className="logo">Event Vibes</div>
+        <button className="nav-btn" onClick={() => navigate('/login')}>
+          Login/Register
+        </button>
+      </nav>
+
       <div
         className="home-image"
         style={{ backgroundImage: `url(${bgImage})` }}
       >
-        <div className="home-overlay">
-          <h1 className="main-title">EVENT VIBES</h1>
-          <p className="subtitle">
-            Browse event folders. Log in to view content and upload media.
-          </p>
+        <div className="center-content">
+          <h1 className="main-title">Event Folders</h1>
           <button className="login-btn" onClick={() => navigate('/login')}>
-            Log In
+            View Events
           </button>
         </div>
       </div>

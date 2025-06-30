@@ -7,9 +7,12 @@
 }
 
 body {
-    font-family: 'Poppins', sans-serif;
-    background: #E6F0FA; /* Pastel blue background */
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+  background: #E6F0FA;
 }
+
 
 input,
 button {
@@ -26,13 +29,19 @@ button {
     color: #A9A9A9; /* Muted gray for secondary text */
 }
 
+.login-wrapper {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .cont {
   border-radius: 20px;
   overflow: hidden;
   position: relative;
   width: 900px;
   height: 550px;
-  margin: 50px auto; 
   background: linear-gradient(135deg, #F9F6F9, #EDE9F6);
   box-shadow: -10px -10px 15px rgba(201, 225, 245, 0.5),
               10px 10px 15px rgba(211, 211, 211, 0.3);
