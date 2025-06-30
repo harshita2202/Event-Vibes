@@ -1,9 +1,13 @@
+This is my Homepage.css
+
 body, html {
   margin: 0;
   padding: 0;
   height: 100%;
-  background: rgb(242, 234, 234);
+  background: #E6F0FA; 
+  font-family: 'Poppins', sans-serif; 
 }
+
 .home-container {
   display: flex;
   justify-content: center;
@@ -15,7 +19,7 @@ body, html {
 }
 
 .home-image {
-  width: 100%; 
+  width: 100%;
   height: 100%;
   max-width: 1200px;
   border-radius: 20px;
@@ -23,12 +27,12 @@ body, html {
   background-position: center;
   position: relative;
   overflow: hidden;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 10px rgba(201, 225, 245, 0.5); 
 }
 
 .home-overlay {
-  background-color: rgba(0, 0, 0, 0.4); /* Light transparency */
-  color: white;
+  background-color: rgba(255, 255, 255, 0.3); 
+  color: #5C6B73;
   text-align: center;
   padding: 60px 20px;
   height: 100%;
@@ -46,6 +50,7 @@ body, html {
 .subtitle {
   font-size: 18px;
   margin-bottom: 30px;
+  color: #A9A9A9; /* Muted gray to match login.css */
 }
 
 .login-btn {
@@ -54,7 +59,7 @@ body, html {
   font-size: 16px;
   border: none;
   border-radius: 8px;
-  background-color: #007bff;
+  background-color: #A8E6CF; /* Pastel mint green to match login.css */
   color: white;
   margin: 0 auto;
   font-weight: bold;
@@ -63,5 +68,25 @@ body, html {
 }
 
 .login-btn:hover {
-  background-color: #0056b3;
+  background-color: #C2F0E2; /* Lighter mint green on hover */
+}
+
+@media (max-width: 768px) {
+  .home-overlay {
+    padding: 30px 15px;
+  }
+
+  .main-title {
+    font-size: 36px;
+  }
+
+  .subtitle {
+    font-size: 16px;
+  }
+
+  .login-btn {
+    width: 130px;
+    padding: 10px;
+    font-size: 14px;
+  }
 }

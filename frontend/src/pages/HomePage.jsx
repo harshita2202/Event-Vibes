@@ -1,7 +1,7 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
-import "./HomePage.css";
-import bgImage from "../assets/background.png"; 
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import './HomePage.css';
+import bgImage from '../assets/background.png';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -17,7 +17,7 @@ const Home = () => {
           <p className="subtitle">
             Browse event folders. Log in to view content and upload media.
           </p>
-          <button className="login-btn" onClick={() => navigate("/login")}>
+          <button className="login-btn" onClick={() => navigate('/login')}>
             Log In
           </button>
         </div>
