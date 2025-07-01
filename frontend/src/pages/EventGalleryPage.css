@@ -1,0 +1,22 @@
+.upload-link-container {
+  text-align: center;
+  margin: 1rem 0;
+}
+
+.no-media-msg {
+  text-align: center;
+  color: #666;
+}
+
+.media-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.media-card img, 
+.media-card video {
+  width: 100%;
+  border-radius: 0.5rem;
+}

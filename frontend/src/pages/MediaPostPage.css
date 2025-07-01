@@ -1,0 +1,27 @@
+.media-post-page {
+  padding: 2rem 5vw;
+  font-family: 'Inter', sans-serif;
+  color: #141414;
+}
+
+.media-post-page img {
+  width: 100%;
+  max-width: 700px;
+  border-radius: 0.75rem;
+  display: block;
+  margin: auto;
+}
+
+.media-post-page p {
+  text-align: center;
+  margin: 0.5rem 0;
+}
+
+.like-button {
+  background: none;
+  border: none;
+  font-size: 1.25rem;
+  cursor: pointer;
+  display: block;
+  margin: 1rem auto 0;
+}
