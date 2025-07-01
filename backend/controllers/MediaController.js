@@ -44,7 +44,7 @@ exports.deleteMedia = async (req, res) => {
     const publicId = media.url.split('/').pop().split('.')[0];
     await cloudinary.uploader.destroy(publicId);
 
-    await media.remove();
+    await media.deleteOne();
     res.json({ message: "Media deleted successfully" });
   } catch (err) {
     console.error("Error deleting media:", err);
@@ -106,5 +106,16 @@ exports.getMediaByUser = async (req, res) => {
   } catch (err) {
     console.error("Error fetching user media:", err);
     res.status(500).json({ error: "Server error while fetching your uploads" });
+  }
+};
+
+exports.getMediaById = async (req, res) => {
+  try {
+    const media = await Media.findById(req.params.id).populate("uploaderId", "name email");
+    if (!media) return res.status(404).json({ error: "Media not found" });
+    res.json(media);
+  } catch (err) {
+    console.error("Error fetching media by ID:", err);
+    res.status(500).json({ error: "Server error" });
   }
 };

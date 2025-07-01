@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Navbar from './Navbar';
 import axios from '../utils/axiosInstance';
 import './AdminDashboard.css';
@@ -8,6 +9,7 @@ const AdminDashboard = () => {
   const [events, setEvents] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [editingEvent, setEditingEvent] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchEvents();
@@ -54,14 +56,34 @@ const AdminDashboard = () => {
 
           <div className="folder-grid">
             {events.map(event => (
-              <div className="folder-card" key={event._id}>
+              <div
+                className="folder-card"
+                key={event._id}
+                onClick={() => navigate(`/media/${event._id}`)}
+                style={{ cursor: 'pointer' }}
+              >
                 <div
                   className="card-image"
                   style={{ backgroundImage: `url(${event.coverImage})` }}
                 >
                   <div className="admin-actions">
-                    <button onClick={() => { setEditingEvent(event); setShowForm(true); }}>✏️</button>
-                    <button onClick={() => handleDelete(event._id)}>🗑️</button>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setEditingEvent(event);
+                        setShowForm(true);
+                      }}
+                    >
+                      ✏️
+                    </button>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDelete(event._id);
+                      }}
+                    >
+                      🗑️
+                    </button>
                   </div>
                 </div>
                 <p>{event.title}</p>

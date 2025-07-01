@@ -5,7 +5,8 @@ const {
   deleteMedia,
   toggleLike,
   getMediaByEvent,
-  getMediaByUser
+  getMediaByUser,
+  getMediaById
 } = require("../controllers/MediaController");
 
 const protect = require("../middleware/authMiddleware");
@@ -16,5 +17,6 @@ router.delete("/:id", protect, deleteMedia);
 router.post("/:id/like", protect, toggleLike);
 router.get("/event/:eventId", protect, getMediaByEvent);
 router.get("/user/me", protect, getMediaByUser);
+router.get("/:id", protect, getMediaById);
 
 module.exports = router;

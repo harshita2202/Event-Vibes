@@ -1,27 +1,98 @@
-.media-post-page {
-  padding: 2rem 5vw;
-  font-family: 'Inter', sans-serif;
-  color: #141414;
-}
-
-.media-post-page img {
-  width: 100%;
-  max-width: 700px;
+.upload-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.5rem;
+  background-color: #ffffff;
   border-radius: 0.75rem;
-  display: block;
-  margin: auto;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+  max-width: 100%;
 }
 
-.media-post-page p {
+.upload-form h3 {
   text-align: center;
-  margin: 0.5rem 0;
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 0.5rem;
 }
 
-.like-button {
-  background: none;
+.upload-label {
+  font-weight: 600;
+  color: #333;
+  font-size: 0.95rem;
+}
+
+.upload-form input[type="file"],
+.upload-form input[type="text"] {
+  padding: 0.6rem 0.8rem;
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+  font-size: 0.95rem;
+  transition: border 0.2s ease;
+}
+
+.upload-form input[type="text"]:focus,
+.upload-form input[type="file"]:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.progress-bar-container {
+  width: 100%;
+  background-color: #e9ecef;
+  border-radius: 0.4rem;
+  height: 18px;
+  overflow: hidden;
+  position: relative;
+}
+
+.progress-bar {
+  height: 100%;
+  background-color: #28a745;
+  width: 0%;
+  transition: width 0.4s ease-in-out;
+}
+
+.progress-bar-container span {
+  position: absolute;
+  right: 12px;
+  top: 1px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.btn-group {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  margin-top: 1rem;
+}
+
+.btn-group button {
+  padding: 0.55rem 1.2rem;
+  border-radius: 0.5rem;
   border: none;
-  font-size: 1.25rem;
+  font-weight: 500;
+  font-size: 0.95rem;
   cursor: pointer;
-  display: block;
-  margin: 1rem auto 0;
+  transition: background-color 0.2s ease;
+}
+
+.btn-group button:first-child {
+  background-color: #007bff;
+  color: white;
+}
+
+.btn-group button:first-child:hover {
+  background-color: #0056b3;
+}
+
+.btn-group button:last-child {
+  background-color: #6c757d;
+  color: white;
+}
+
+.btn-group button:last-child:hover {
+  background-color: #5a6268;
 }

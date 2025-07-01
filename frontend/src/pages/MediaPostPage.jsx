@@ -1,38 +1,94 @@
-import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import React, { useState } from "react";
 import axios from "../utils/axiosInstance";
 import "./MediaPostPage.css";
 
-const MediaPostPage = () => {
-  const { postId } = useParams();
-  const [media, setMedia] = useState(null);
+const MediaPostPage = ({ eventId, onClose, onSuccess }) => {
+  const [file, setFile] = useState(null);
+  const [caption, setCaption] = useState("");
+  const [mediaType, setMediaType] = useState("image");
+  const [progress, setProgress] = useState(0);
+  const [uploading, setUploading] = useState(false);
 
-  useEffect(() => {
-    const fetchMedia = async () => {
-      try {
-        const res = await axios.get(`/media/${postId}`);
-        setMedia(res.data);
-      } catch (err) {
-        console.error("Fetch media failed:", err);
-      }
-    };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!file) return alert("Please select a file");
 
-    fetchMedia();
-  }, [postId]);
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("caption", caption);
+    formData.append("mediaType", mediaType);
+    formData.append("eventId", eventId);
 
-  if (!media) return <p>Loading...</p>;
+    try {
+      setUploading(true);
+
+      await axios.post("/media/upload", formData, {
+        onUploadProgress: (e) => {
+          const percent = Math.round((e.loaded * 100) / e.total);
+          setProgress(percent);
+        },
+      });
+
+      setProgress(100);
+      setTimeout(() => {
+        alert("Upload successful");
+        resetForm();
+        onSuccess();
+      }, 500);
+    } catch (err) {
+      console.error("Upload failed", err);
+      alert("Upload failed");
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  const resetForm = () => {
+    setFile(null);
+    setCaption("");
+    setProgress(0);
+  };
 
   return (
-    <div className="media-post-page">
-      <h1>{media.caption || "Untitled"}</h1>
-      {media.mediaType === "image" ? (
-        <img src={media.url} alt={media.caption} />
-      ) : (
-        <video src={media.url} controls />
+    <form className="upload-form" onSubmit={handleSubmit}>
+      <h3>Upload Media</h3>
+
+      <label className="upload-label">Choose File</label>
+      <input
+        type="file"
+        accept="image/*,video/*"
+        onChange={(e) => {
+          const selectedFile = e.target.files[0];
+          if (selectedFile) {
+            setFile(selectedFile);
+            setMediaType(selectedFile.type.startsWith("video") ? "video" : "image");
+          }
+        }}
+        required
+        disabled={uploading}
+      />
+
+      <label className="upload-label">Caption</label>
+      <input
+        type="text"
+        placeholder="Enter caption"
+        value={caption}
+        onChange={(e) => setCaption(e.target.value)}
+        disabled={uploading}
+      />
+
+      {uploading && (
+        <div className="progress-bar-container">
+          <div className="progress-bar" style={{ width: `${progress}%` }}></div>
+          <span className="progress-text">{progress}%</span>
+        </div>
       )}
-      <p>Uploaded by: {media.uploaderId?.name || "Unknown"}</p>
-      <p>{new Date(media.createdAt).toLocaleString()}</p>
-    </div>
+
+      <div className="btn-group">
+        <button type="submit" disabled={uploading || !file}>Upload</button>
+        <button type="button" onClick={onClose} disabled={uploading}>Cancel</button>
+      </div>
+    </form>
   );
 };
 
