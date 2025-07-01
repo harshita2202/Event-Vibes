@@ -5,6 +5,7 @@ import Navbar from './Navbar';
 import './EventGalleryPage.css';
 import UploadForm from './MediaPostPage';
 import { useAuth } from '../contexts/AuthContext';
+import { FaHeart, FaRegHeart } from 'react-icons/fa';
 
 const EventGalleryPage = () => {
   const [mediaList, setMediaList] = useState([]);
@@ -42,6 +43,19 @@ const EventGalleryPage = () => {
     }
   };
 
+  const handleLike = async (mediaId) => {
+    try {
+      const res = await axios.post(`/media/${mediaId}/like`);
+      setMediaList(prev =>
+        prev.map(m =>
+          m._id === mediaId ? { ...m, likes: res.data.likesCount ? [...(m.likes || []), user._id] : m.likes.filter(id => id !== user._id) } : m
+        )
+      );
+    } catch (err) {
+      console.error('Error liking media:', err);
+    }
+  };
+
   return (
     <div className="group/design-root">
       <Navbar />
@@ -62,7 +76,9 @@ const EventGalleryPage = () => {
             {mediaList.length === 0 ? (
               <p className="no-media-msg">No media uploaded yet.</p>
             ) : (
-              mediaList.map((media) => (
+              mediaList.map((media) => {
+              const isLiked = media.likes?.includes(user?._id); // Check if current user liked it
+              return (
                 <div
                   key={media._id}
                   className="media-card"
@@ -74,7 +90,7 @@ const EventGalleryPage = () => {
                     <video src={media.url} />
                   )}
 
-                  {(user?.role === "admin" || user?._id === media?.uploaderId) && (
+                  {(user?.role === "admin" || user?._id === media?.uploaderId?._id) && (
                     <button
                       className="delete-btn"
                       onClick={(e) => {
@@ -85,8 +101,24 @@ const EventGalleryPage = () => {
                       🗑️
                     </button>
                   )}
+
+                  <div
+                    className="like-section"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleLike(media._id);
+                    }}
+                  >
+                    {isLiked ? (
+                      <FaHeart className="like-icon liked" />
+                    ) : (
+                      <FaRegHeart className="like-icon" />
+                    )}
+                    <span className="like-count">{media.likes?.length || 0}</span>
+                  </div>
                 </div>
-              ))
+              );
+            })
             )}
           </div>
         </div>
@@ -120,7 +152,12 @@ const EventGalleryPage = () => {
             ) : (
               <video src={previewMedia.url} controls />
             )}
-            <p>{previewMedia.caption}</p>
+            <div className="preview-details">
+              {previewMedia.caption && <p className="caption">{previewMedia.caption}</p>}
+              {previewMedia.uploaderId?.name && (
+                <p className="uploader">Uploaded by: {previewMedia.uploaderId.name}</p>
+              )}
+            </div>
           </div>
         </div>
       )}

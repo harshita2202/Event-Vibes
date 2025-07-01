@@ -1,5 +1,6 @@
 const Media = require("../models/Media");
 const cloudinary = require("../config/Cloudinary");
+import { FaHeart, FaRegHeart } from 'react-icons/fa';
 
 // Upload media (image/video) with caption
 exports.uploadMedia = async (req, res) => {
@@ -40,9 +41,9 @@ exports.deleteMedia = async (req, res) => {
       return res.status(403).json({ error: "Not authorized to delete this media" });
     }
 
-    // Extract publicId from Cloudinary URL
-    const publicId = media.url.split('/').pop().split('.')[0];
-    await cloudinary.uploader.destroy(publicId);
+    // More robust publicId extraction
+    const publicId = media.url.split('/').slice(-1)[0].split('.')[0];
+    await cloudinary.uploader.destroy(`event-media/${publicId}`);
 
     await media.deleteOne();
     res.json({ message: "Media deleted successfully" });

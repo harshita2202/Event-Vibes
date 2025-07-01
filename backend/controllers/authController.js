@@ -1,10 +1,9 @@
-//This file contains the actual logic behind register and login functionality.
+// This file contains the actual logic behind register and login functionality.
 
 const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const generateToken = require("../utils/generateToken");
 const adminEmails = process.env.ADMIN_EMAILS.split(",");
-
 
 exports.register = async (req, res) => {
   const { name, email, password } = req.body;
@@ -42,13 +41,14 @@ exports.register = async (req, res) => {
   res.status(201).json({
     token,
     user: {
-      id: newUser._id,
+      _id: newUser._id,        
       name: newUser.name,
       email: newUser.email,
       role: newUser.role,
     }
   });
 };
+
 // @route POST /api/auth/login
 exports.login = async (req, res) => {
   const { email, password } = req.body;
@@ -64,10 +64,10 @@ exports.login = async (req, res) => {
   res.json({
     token,
     user: {
-      id: user._id,
+      _id: user._id,           
       name: user.name,
       email: user.email,
-      role: user.role
+      role: user.role,
     }
   });
 };

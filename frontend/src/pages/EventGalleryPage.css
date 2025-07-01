@@ -48,7 +48,10 @@
 }
 
 .media-card {
-  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: white;
   border-radius: 0.5rem;
   overflow: hidden;
   cursor: pointer;
@@ -67,8 +70,9 @@
 .media-card img,
 .media-card video {
   width: 100%;
-  height: auto;
-  border-radius: 0.5rem;
+  height: 180px; /* Fixed height for thumbnails */
+  object-fit: cover;
+  border-radius: 0.5rem 0.5rem 0 0;
   display: block;
 }
 
@@ -76,9 +80,9 @@
   display: none;
   position: absolute;
   top: 8px;
-  left: 8px; /* moved from right to left */
-  font-size: 1.2rem;
-  color: red;
+  left: 8px;
+  font-size: 1.5rem;
+  color: #ff1a1a;
   background: none;
   border: none;
   cursor: pointer;
@@ -87,8 +91,8 @@
 }
 
 .delete-btn:hover {
-  background: none;
-  color: red;
+  color: #cc0000;
+  background: transparent !important;
 }
 
 /* Preview overlay */
@@ -98,7 +102,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0,0,0,0.85);
+  background: rgba(0, 0, 0, 0.85);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -119,10 +123,12 @@
 .preview-content video {
   max-width: 100%;
   max-height: 80vh;
+  object-fit: contain;
   display: block;
   margin: auto;
   border: none !important;
 }
+
 
 .close-btn {
   position: fixed;
@@ -139,6 +145,55 @@
 }
 
 .close-btn:hover {
-  background: none;
+  color: #ffdddd;
+  background: transparent !important;
+}
+
+/* 🔽 Preview text */
+.preview-details {
+  text-align: center;
   color: white;
+  margin-top: 1rem;
+  padding: 0 1rem;
+}
+
+.preview-details .caption {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+  word-wrap: break-word;
+}
+
+.preview-details .uploader {
+  font-size: 0.95rem;
+  opacity: 0.85;
+}
+
+/* 🔽 Like section below image */
+.like-section {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 6px;
+  padding: 0.4rem 0.5rem;
+  background: rgba(255, 255, 255, 0.9);
+  border-top: 1px solid #eee;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.like-icon {
+  font-size: 1.2rem;
+  color: #666;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.like-icon.liked {
+  color: #e0245e;
+  transform: scale(1.2);
+}
+
+.like-count {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #333;
 }

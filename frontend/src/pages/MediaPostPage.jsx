@@ -6,7 +6,6 @@ const MediaPostPage = ({ eventId, onClose, onSuccess }) => {
   const [file, setFile] = useState(null);
   const [caption, setCaption] = useState("");
   const [mediaType, setMediaType] = useState("image");
-  const [progress, setProgress] = useState(0);
   const [uploading, setUploading] = useState(false);
 
   const handleSubmit = async (e) => {
@@ -22,19 +21,11 @@ const MediaPostPage = ({ eventId, onClose, onSuccess }) => {
     try {
       setUploading(true);
 
-      await axios.post("/media/upload", formData, {
-        onUploadProgress: (e) => {
-          const percent = Math.round((e.loaded * 100) / e.total);
-          setProgress(percent);
-        },
-      });
+      await axios.post("/media/upload", formData);
 
-      setProgress(100);
-      setTimeout(() => {
-        alert("Upload successful");
-        resetForm();
-        onSuccess();
-      }, 500);
+      alert("Upload successful");
+      resetForm();
+      onSuccess();
     } catch (err) {
       console.error("Upload failed", err);
       alert("Upload failed");
@@ -46,7 +37,6 @@ const MediaPostPage = ({ eventId, onClose, onSuccess }) => {
   const resetForm = () => {
     setFile(null);
     setCaption("");
-    setProgress(0);
   };
 
   return (
@@ -77,16 +67,13 @@ const MediaPostPage = ({ eventId, onClose, onSuccess }) => {
         disabled={uploading}
       />
 
-      {uploading && (
-        <div className="progress-bar-container">
-          <div className="progress-bar" style={{ width: `${progress}%` }}></div>
-          <span className="progress-text">{progress}%</span>
-        </div>
-      )}
-
       <div className="btn-group">
-        <button type="submit" disabled={uploading || !file}>Upload</button>
-        <button type="button" onClick={onClose} disabled={uploading}>Cancel</button>
+        <button type="submit" disabled={uploading || !file}>
+          {uploading ? "Uploading..." : "Upload"}
+        </button>
+        <button type="button" onClick={onClose} disabled={uploading}>
+          Cancel
+        </button>
       </div>
     </form>
   );
