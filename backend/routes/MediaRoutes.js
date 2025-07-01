@@ -10,9 +10,11 @@ const {
 } = require("../controllers/MediaController");
 
 const protect = require("../middleware/authMiddleware");
-const upload = require("../middleware/upload"); 
+const upload = require("../middleware/upload");
 
-router.post("/upload", protect, upload.single("file"), uploadMedia); 
+// POST /api/media/upload with real file upload
+router.post("/upload", protect, upload.single("file"), uploadMedia);
+
 router.delete("/:id", protect, deleteMedia);
 router.post("/:id/like", protect, toggleLike);
 router.get("/event/:eventId", protect, getMediaByEvent);

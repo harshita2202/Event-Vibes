@@ -41,17 +41,19 @@
   align-self: flex-end;
 }
 
-.progress-container p {
+.upload-page button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.upload-status {
   font-size: 0.875rem;
+  margin: 0.25rem 0;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
 }
 
-.progress-bar {
-  background: #e5e7eb;
-  border-radius: 0.5rem;
-  overflow: hidden;
-}
-
-.progress-fill {
-  background: #141414;
-  height: 0.5rem;
+.upload-status.error {
+  color: #ef4444;
+  background-color: #fee2e2;
 }

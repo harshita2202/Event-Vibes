@@ -1,36 +1,48 @@
 import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';   // ✅ Import useParams
+import { useParams } from 'react-router-dom';
+import axios from '../utils/axiosInstance';
 import './UploadPage.css';
 
 const UploadPage = () => {
-  const { eventId } = useParams();   // ✅ Get eventId from URL
+  const { eventId } = useParams();
   const [file, setFile] = useState(null);
   const [caption, setCaption] = useState('');
-  const [progress, setProgress] = useState(0);
+  const [uploadStatus, setUploadStatus] = useState('');
   const [uploading, setUploading] = useState(false);
 
-  const handleUpload = (e) => {
+  const handleUpload = async (e) => {
     e.preventDefault();
     if (!file) {
       alert("Please select a file!");
       return;
     }
 
-    console.log("Uploading file:", file.name);
-    console.log("Uploading for eventId:", eventId);  // ✅ Now we have the eventId
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('caption', caption);
+    formData.append('eventId', eventId);
 
-    // ⬇ Here you'd call your backend upload API with file + caption + eventId
-    setUploading(true);
-    const interval = setInterval(() => {
-      setProgress((prev) => {
-        if (prev >= 100) {
-          clearInterval(interval);
-          setUploading(false);
-          return 100;
+    try {
+      setUploading(true);
+      setUploadStatus('Uploading...');
+
+      await axios.post('/media/upload', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
         }
-        return prev + 10;
       });
-    }, 300);
+
+      setUploadStatus('Upload complete!');
+      setFile(null);
+      setCaption('');
+      
+      setTimeout(() => setUploadStatus(''), 2000);
+    } catch (err) {
+      console.error("Upload failed:", err);
+      setUploadStatus('Upload failed');
+    } finally {
+      setUploading(false);
+    }
   };
 
   return (
@@ -39,22 +51,31 @@ const UploadPage = () => {
       <form onSubmit={handleUpload}>
         <label>
           Select File
-          <input type="file" onChange={(e) => setFile(e.target.files[0])} />
+          <input 
+            type="file" 
+            onChange={(e) => setFile(e.target.files[0])} 
+            disabled={uploading}
+          />
         </label>
         <label>
           Caption
-          <textarea value={caption} onChange={(e) => setCaption(e.target.value)} placeholder="Add a caption" />
+          <textarea
+            value={caption}
+            onChange={(e) => setCaption(e.target.value)}
+            placeholder="Add a caption"
+            disabled={uploading}
+          />
         </label>
-        {uploading && (
-          <div className="progress-container">
-            <p>Uploading...</p>
-            <div className="progress-bar">
-              <div className="progress-fill" style={{ width: `${progress}%` }}></div>
-            </div>
-            <p>{progress}%</p>
-          </div>
+
+        {uploadStatus && (
+          <p className={`upload-status ${uploadStatus.includes('failed') ? 'error' : ''}`}>
+            {uploadStatus}
+          </p>
         )}
-        <button type="submit">Upload</button>
+
+        <button type="submit" disabled={uploading}>
+          {uploading ? 'Uploading...' : 'Upload'}
+        </button>
       </form>
     </div>
   );
