@@ -13,7 +13,6 @@ body {
   background: #E6F0FA;
 }
 
-
 input,
 button {
     border: none;
@@ -26,7 +25,7 @@ button {
     font-size: 20px;
     margin: 40px auto 50px;
     text-align: center;
-    color: #A9A9A9; /* Muted gray for secondary text */
+    color: #555; /* Darker gray */
 }
 
 .login-wrapper {
@@ -42,7 +41,7 @@ button {
   position: relative;
   width: 900px;
   height: 550px;
-  background: linear-gradient(135deg, #F9F6F9, #EDE9F6);
+  background: linear-gradient(135deg, #F5F5FA, #EDE9F6);
   box-shadow: -10px -10px 15px rgba(201, 225, 245, 0.5),
               10px 10px 15px rgba(211, 211, 211, 0.3);
 }
@@ -63,7 +62,7 @@ button {
     width: 900px;
     height: 100%;
     padding-left: 260px;
-    background: #F9F6F9; /* Off-white pastel */
+    background: #F5F5FA;
     transition: transform 1.5s ease-in-out;
 }
 
@@ -80,12 +79,12 @@ button {
     color: #fff;
     font-size: 15px;
     cursor: pointer;
-    background: #A8E6CF; /* Pastel mint green for buttons */
+    background: #5CBCA7; /* Darker mint */
     transition: background 0.3s ease;
 }
 
 button:hover {
-    background: #C2F0E2; /* Lighter mint green on hover */
+    background: #7DDDC2; /* Slightly lighter mint on hover */
 }
 
 .img {
@@ -106,7 +105,7 @@ button:hover {
     top: 0;
     width: 900px;
     height: 100%;
-    background: linear-gradient(135deg, #B3D8F5, #C1E1C1); /* Pastel blue to mint green gradient */
+    background: linear-gradient(135deg, #A4CFE1, #A0D0A0); 
     background-size: cover;
     transition: transform 1.5s ease-in-out;
 }
@@ -118,7 +117,7 @@ button:hover {
     top: 0;
     width: 100%;
     height: 100%;
-    background: rgba(255, 255, 255, 0.3); /* Light overlay for softness */
+    background: rgba(255, 255, 255, 0.2);
 }
 
 .cont.s--signup .img:before {
@@ -133,13 +132,13 @@ button:hover {
     width: 100%;
     padding: 0 20px;
     text-align: center;
-    color: #5C6B73; /* Darker pastel for readability */
+    color: #333; /* Dark gray */
     transition: transform 1.5s ease-in-out;
 }
 
 .img__text h2 {
     margin-bottom: 10px;
-    font-weight: normal;
+    font-weight: 600;
 }
 
 .img__text p {
@@ -167,7 +166,7 @@ button:hover {
     height: 36px;
     margin: 0 auto;
     background: transparent;
-    color: #5C6B73; /* Darker pastel for text */
+    color: #333;
     text-transform: uppercase;
     font-size: 15px;
     cursor: pointer;
@@ -181,7 +180,7 @@ button:hover {
     top: 0;
     width: 100%;
     height: 100%;
-    border: 2px solid #D9D1E8; /* Pastel lavender border */
+    border: 2px solid #AAA; 
     border-radius: 30px;
 }
 
@@ -213,7 +212,7 @@ h2 {
     width: 100%;
     font-size: 26px;
     text-align: center;
-    color: #5C6B73; /* Darker pastel for headings */
+    color: #333;
 }
 
 label {
@@ -225,7 +224,7 @@ label {
 
 label span {
     font-size: 12px;
-    color: #D9D1E8; /* Pastel lavender for labels */
+    color: #777;
     text-transform: uppercase;
 }
 
@@ -235,22 +234,22 @@ input {
     margin-top: 5px;
     padding-bottom: 5px;
     font-size: 16px;
-    border-bottom: 1px solid #D9D1E8; /* Pastel lavender underline */
+    border-bottom: 1px solid #999;
     text-align: center;
-    color: #5C6B73; /* Darker pastel for input text */
+    color: #222;
 }
 
 .forgot-pass {
     margin-top: 15px;
     text-align: center;
     font-size: 12px;
-    color: #A9A9A9; /* Muted gray for secondary text */
+    color: #666;
 }
 
 .submit {
     margin-top: 40px;
     margin-bottom: 20px;
-    background: #A8E6CF; /* Pastel mint green for buttons */
+    background: #5CBCA7;
     text-transform: uppercase;
 }
 
@@ -297,8 +296,8 @@ input {
 
 .password-field input {
   width: 100%;
-  padding-right: 30px; /* Room for eye icon */
-  text-align: center;   /* Keep centered as per your design */
+  padding-right: 30px;
+  text-align: center;
 }
 
 .eye-icon {
@@ -308,5 +307,5 @@ input {
   transform: translateY(-50%);
   cursor: pointer;
   font-size: 16px;
-  color: #5C6B73; /* Same as text color */
+  color: #444;
 }

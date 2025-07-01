@@ -1,6 +1,5 @@
 const Media = require("../models/Media");
 const cloudinary = require("../config/Cloudinary");
-import { FaHeart, FaRegHeart } from 'react-icons/fa';
 
 // Upload media (image/video) with caption
 exports.uploadMedia = async (req, res) => {
