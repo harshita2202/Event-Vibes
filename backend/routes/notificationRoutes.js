@@ -25,4 +25,16 @@ router.put('/read-all', protect, async (req, res) => {
   }
 });
 
+// Mark all as read
+router.put('/read-all', protect, async (req, res) => {
+  try {
+    await Notification.updateMany({ userId: req.user.id }, { isRead: true });
+    res.json({ message: 'All marked as read' });
+  } catch (err) {
+    console.error("Error marking notifications as read:", err);
+    res.status(500).json({ error: 'Failed to update notifications' });
+  }
+});
+
+
 module.exports = router;

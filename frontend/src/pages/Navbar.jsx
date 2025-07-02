@@ -2,18 +2,19 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import './Navbar.css';
-import logo from '../assets/bg.png';
-import defaultAvatar from '../assets/profile.png'; // ✅ default fallback profile image
-import { FaBell } from 'react-icons/fa';            // ✅ Notification bell icon
-import axios from '../utils/axiosInstance';         // ✅ API call for notifications
+import logo from '../assets/eventLogo.png';
+import defaultAvatar from '../assets/profile.png';
+import { FaBell } from 'react-icons/fa';
+import axios from '../utils/axiosInstance';
 
 const Navbar = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { user } = useAuth();
 
-  const [showNotifications, setShowNotifications] = useState(false); // ✅ toggle dropdown
-  const [notifications, setNotifications] = useState([]);            // ✅ fetched data
+  const [showNotifications, setShowNotifications] = useState(false);
+  const [notifications, setNotifications] = useState([]);
+  const [unreadCount, setUnreadCount] = useState(0);
 
   const handleProfileClick = () => {
     if (user?.role === 'admin') {
@@ -25,16 +26,31 @@ const Navbar = () => {
     }
   };
 
-  // ✅ Fetch notifications on mount
+  const handleBellClick = async () => {
+    const toggled = !showNotifications;
+    setShowNotifications(toggled);
+
+    if (toggled) {
+      try {
+        await axios.put('/notifications/read-all');
+        setUnreadCount(0);
+      } catch (err) {
+        console.error("Failed to mark notifications as read");
+      }
+    }
+  };
+
   useEffect(() => {
     const fetchNotifications = async () => {
+      if (!user) return;
       try {
-        if (user) {
-          const res = await axios.get('/notifications');
-          setNotifications(res.data);
-        }
+        const res = await axios.get('/notifications');
+        setNotifications(res.data);
+
+        const unread = res.data.filter(n => !n.isRead).length;
+        setUnreadCount(unread);
       } catch (err) {
-        console.error('Failed to load notifications:', err);
+        console.error('Failed to load notifications');
       }
     };
 
@@ -44,7 +60,16 @@ const Navbar = () => {
   return (
     <header className="navbar">
       <div className="navbar-logo">
-        <img src={logo} alt="Event Vibes" />
+        <img
+          src={logo}
+          alt="Event Vibes Logo"
+          className="logo-image"
+          onError={(e) => {
+            e.target.onerror = null;
+            e.target.src = defaultAvatar;
+          }}
+          style={{ height: '35px', width: '35px', borderRadius: '5px', marginRight: '8px' }}
+        />
         <h2>Event Vibes</h2>
       </div>
 
@@ -63,14 +88,15 @@ const Navbar = () => {
           </Link>
         )}
 
-        {/* ✅ Bell Icon with Dropdown */}
         {user && (
           <div className="navbar-notification-wrapper">
-            <FaBell
-              className="notification-bell"
-              onClick={() => setShowNotifications(!showNotifications)}
-              title="Notifications"
-            />
+            <div className="bell-container" onClick={handleBellClick}>
+              <FaBell className="notification-bell" title="Notifications" />
+              {unreadCount > 0 && (
+                <span className="notification-badge">{unreadCount}</span>
+              )}
+            </div>
+
             {showNotifications && (
               <div className="notification-dropdown">
                 {notifications.length === 0 ? (
@@ -89,7 +115,6 @@ const Navbar = () => {
           </div>
         )}
 
-        {/* ✅ Profile Icon */}
         {user && (
           <div
             className="navbar-profile-pic"
