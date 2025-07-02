@@ -83,3 +83,34 @@
   height: 100%;
   object-fit: cover;
 }
+.navbar-notification-wrapper {
+  position: relative;
+  margin-right: 16px;
+}
+
+.notification-bell {
+  font-size: 20px;
+  cursor: pointer;
+  color: #333;
+}
+
+.notification-dropdown {
+  position: absolute;
+  top: 30px;
+  right: 0;
+  width: 300px;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  z-index: 99;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.notification-item {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+  font-size: 14px;
+}

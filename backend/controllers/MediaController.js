@@ -1,7 +1,10 @@
 const Media = require("../models/Media");
 const cloudinary = require("../config/Cloudinary");
+const Event = require("../models/Event");
+const User = require("../models/User");
+const Notification = require("../models/Notification");
 
-// Upload media (image/video) with caption
+// Upload media
 exports.uploadMedia = async (req, res) => {
   const { caption, mediaType, eventId } = req.body;
 
@@ -10,8 +13,12 @@ exports.uploadMedia = async (req, res) => {
   }
 
   try {
+    const uploader = await User.findById(req.user._id);
+    const event = await Event.findById(eventId);
+    if (!event) return res.status(404).json({ error: "Event not found" });
+
     const media = new Media({
-      url: req.file.path,                // Uploaded Cloudinary URL from multer
+      url: req.file.path,
       caption,
       mediaType,
       eventId,
@@ -19,6 +26,17 @@ exports.uploadMedia = async (req, res) => {
     });
 
     const saved = await media.save();
+
+    // ✅ Notify all other users
+    const otherUsers = await User.find({ _id: { $ne: req.user._id } });
+    for (const user of otherUsers) {
+      console.log("Sending notification to:", user.name);
+      await Notification.create({
+        userId: user._id,
+        message: `${uploader.name} uploaded a ${mediaType} in "${event.title}"`,
+      });
+    }
+
     res.status(201).json(saved);
   } catch (error) {
     console.error("Error uploading media:", error);
@@ -26,47 +44,28 @@ exports.uploadMedia = async (req, res) => {
   }
 };
 
-// Delete media (admin or owner only)
-exports.deleteMedia = async (req, res) => {
-  try {
-    const media = await Media.findById(req.params.id);
-    if (!media) return res.status(404).json({ error: "Media not found" });
-
-    // Authorization check
-    if (
-      media.uploaderId.toString() !== req.user._id.toString() &&
-      req.user.role !== "admin"
-    ) {
-      return res.status(403).json({ error: "Not authorized to delete this media" });
-    }
-
-    // More robust publicId extraction
-    const publicId = media.url.split('/').slice(-1)[0].split('.')[0];
-    await cloudinary.uploader.destroy(`event-media/${publicId}`);
-
-    await media.deleteOne();
-    res.json({ message: "Media deleted successfully" });
-  } catch (err) {
-    console.error("Error deleting media:", err);
-    res.status(500).json({ error: "Server error while deleting media" });
-  }
-};
-
-// Like or unlike a media item
+// Toggle like
 exports.toggleLike = async (req, res) => {
   try {
-    const media = await Media.findById(req.params.id);
+    const media = await Media.findById(req.params.id).populate("uploaderId", "name _id");
     if (!media) return res.status(404).json({ error: "Media not found" });
 
     const userId = req.user._id.toString();
     const alreadyLiked = media.likes.includes(userId);
 
     if (alreadyLiked) {
-      // Unlike
       media.likes = media.likes.filter(id => id.toString() !== userId);
     } else {
-      // Like
       media.likes.push(userId);
+
+      // ✅ Notify uploader
+      if (media.uploaderId._id.toString() !== userId) {
+        console.log("Sending like notification to:", media.uploaderId.name);
+        await Notification.create({
+          userId: media.uploaderId._id,
+          message: `${req.user.name} liked your ${media.mediaType}`,
+        });
+      }
     }
 
     await media.save();
@@ -82,7 +81,31 @@ exports.toggleLike = async (req, res) => {
   }
 };
 
-// Get all media from a specific event
+// Other unchanged methods (deleteMedia, getMediaByEvent, getMediaByUser, getMediaById)...
+
+exports.deleteMedia = async (req, res) => {
+  try {
+    const media = await Media.findById(req.params.id);
+    if (!media) return res.status(404).json({ error: "Media not found" });
+
+    if (
+      media.uploaderId.toString() !== req.user._id.toString() &&
+      req.user.role !== "admin"
+    ) {
+      return res.status(403).json({ error: "Not authorized to delete this media" });
+    }
+
+    const publicId = media.url.split('/').slice(-1)[0].split('.')[0];
+    await cloudinary.uploader.destroy(`event-media/${publicId}`);
+    await media.deleteOne();
+
+    res.json({ message: "Media deleted successfully" });
+  } catch (err) {
+    console.error("Error deleting media:", err);
+    res.status(500).json({ error: "Server error while deleting media" });
+  }
+};
+
 exports.getMediaByEvent = async (req, res) => {
   try {
     const media = await Media.find({ eventId: req.params.eventId })
@@ -96,12 +119,9 @@ exports.getMediaByEvent = async (req, res) => {
   }
 };
 
-// Get media uploaded by the logged-in user
 exports.getMediaByUser = async (req, res) => {
   try {
-    const media = await Media.find({ uploaderId: req.user._id })
-      .sort({ createdAt: -1 });
-
+    const media = await Media.find({ uploaderId: req.user._id }).sort({ createdAt: -1 });
     res.json(media);
   } catch (err) {
     console.error("Error fetching user media:", err);
