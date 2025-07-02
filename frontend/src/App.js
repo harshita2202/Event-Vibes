@@ -9,7 +9,7 @@ import AdminDashboard from "./pages/AdminDashboard";
 import UserDashboard from "./pages/UserDashboard";
 import EventGalleryPage from "./pages/EventGalleryPage";
 import MediaPostPage from "./pages/MediaPostPage";
-
+import UserProfile from './pages/UserProfile';
 // Role-based protected route
 const ProtectedRoute = ({ children, allowedRoles }) => {
   const { user } = useAuth();
@@ -78,7 +78,15 @@ function App() {
               </ProtectedRoute>
             }
           />
-
+          <Route
+             path="/profile"
+             element={
+             <ProtectedRoute>
+               <UserProfile />
+             </ProtectedRoute>
+            }
+          />
+           
           {/* Catch-all to redirect unknown routes */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

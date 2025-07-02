@@ -61,3 +61,22 @@
 .navbar-links a:hover::after {
   width: 100%;
 }
+.navbar-profile-pic {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  overflow: hidden;
+  cursor: pointer;
+  border: 2px solid #eee;
+  transition: transform 0.2s ease;
+}
+
+.navbar-profile-pic:hover {
+  transform: scale(1.05);
+}
+
+.navbar-profile-pic img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}

@@ -1,11 +1,12 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext'; 
 import './Navbar.css';
 import logo from '../assets/bg.png'; 
 
 const Navbar = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const { user } = useAuth(); 
 
   return (
@@ -30,6 +31,19 @@ const Navbar = () => {
           </Link>
         )}
       </nav>
+
+      {user && (
+        <div
+          className="navbar-profile-pic"
+          onClick={() => navigate('/profile')}
+          title="Profile"
+        >
+          <img
+            src={user.profilePic || "https://res.cloudinary.com/demo/image/upload/v1710000000/default-avatar.jpg"}
+            alt="Profile"
+          />
+        </div>
+      )}
     </header>
   );
 };
