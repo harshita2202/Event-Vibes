@@ -1,7 +1,7 @@
 .navbar {
   display: flex;
   justify-content: space-between;
-  align-items: center; /* This is key to vertical alignment */
+  align-items: center;
   padding: 12px 24px;
   border-bottom: 1px solid #ededed;
   background-color: #fff;
@@ -16,7 +16,7 @@
 .navbar-logo img {
   width: 24px;
   height: 24px;
-  display: block; /* Prevent any default image baseline shift */
+  display: block;
 }
 
 .navbar-logo h2 {
@@ -24,19 +24,21 @@
   font-weight: 700;
   color: #141414;
   margin: 0;
-  line-height: 1; /* Align better with icon */
+  line-height: 1;
 }
 
-.navbar-links {
+/* NEW: Right-aligned actions (Home, Folders, Profile) */
+.navbar-actions {
   display: flex;
-  align-items: center; /* Align text vertically */
+  align-items: center;
   gap: 24px;
+  margin-left: auto;
 }
 
-.navbar-links a,
-.navbar-links a:visited,
-.navbar-links a:focus,
-.navbar-links a:active {
+.navbar-actions a,
+.navbar-actions a:visited,
+.navbar-actions a:focus,
+.navbar-actions a:active {
   display: inline-block;
   color: #141414;
   text-decoration: none !important;
@@ -47,7 +49,7 @@
   line-height: 1.5;
 }
 
-.navbar-links a::after {
+.navbar-actions a::after {
   content: '';
   position: absolute;
   bottom: 0;
@@ -58,10 +60,11 @@
   transition: width 0.3s ease;
 }
 
-.navbar-links a:hover::after {
+.navbar-actions a:hover::after {
   width: 100%;
 }
-.navbar-profile-pic {
+
+.navbar-actions .navbar-profile-pic {
   width: 32px;
   height: 32px;
   border-radius: 50%;
@@ -71,11 +74,11 @@
   transition: transform 0.2s ease;
 }
 
-.navbar-profile-pic:hover {
+.navbar-actions .navbar-profile-pic:hover {
   transform: scale(1.05);
 }
 
-.navbar-profile-pic img {
+.navbar-actions .navbar-profile-pic img {
   width: 100%;
   height: 100%;
   object-fit: cover;

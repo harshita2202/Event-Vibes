@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import axios from '../utils/axiosInstance';
 import Navbar from './Navbar';
-import './UserProfile.css';
+import './AdminProfile.css';
 import { useAuth } from '../contexts/AuthContext';
 import defaultAvatar from '../assets/profile.png';
 import { FaHeart, FaRegHeart } from 'react-icons/fa';
 
-const UserProfile = () => {
+const AdminProfile = () => {
   const { user } = useAuth();
   const [media, setMedia] = useState([]);
   const [showSettings, setShowSettings] = useState(false);
@@ -147,7 +147,7 @@ const UserProfile = () => {
 
           <div className="profile-info">
             <h2>{user.name}</h2>
-            <p className="subtitle">Student at JKLU</p>
+            <p className="subtitle">Admin at JKLU</p>
           </div>
         </div>
 
@@ -199,4 +199,4 @@ const UserProfile = () => {
   );
 };
 
-export default UserProfile;
+export default AdminProfile;

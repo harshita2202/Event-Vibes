@@ -41,10 +41,11 @@ exports.register = async (req, res) => {
   res.status(201).json({
     token,
     user: {
-      _id: newUser._id,        
+      _id: newUser._id,
       name: newUser.name,
       email: newUser.email,
       role: newUser.role,
+      profilePic: newUser.profilePic, // ✅ add this
     }
   });
 };
@@ -64,10 +65,11 @@ exports.login = async (req, res) => {
   res.json({
     token,
     user: {
-      _id: user._id,           
+      _id: user._id,
       name: user.name,
       email: user.email,
       role: user.role,
-    }
+      profilePic: user.profilePic, // ✅ add this
+    },
   });
 };

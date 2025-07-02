@@ -25,8 +25,7 @@ const userSchema = new mongoose.Schema({
 
   profilePic: {
     type: String,
-    default: "https://res.cloudinary.com/demo/image/upload/v1710000000/default-avatar.jpg"
-    // Default avatar URL
+    default: ""
   }
 });
 

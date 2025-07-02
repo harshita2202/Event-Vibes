@@ -9,7 +9,9 @@ import AdminDashboard from "./pages/AdminDashboard";
 import UserDashboard from "./pages/UserDashboard";
 import EventGalleryPage from "./pages/EventGalleryPage";
 import MediaPostPage from "./pages/MediaPostPage";
-import UserProfile from './pages/UserProfile';
+import AdminProfile from "./pages/AdminProfile";
+import UserProfile from "./pages/UserProfile";
+
 // Role-based protected route
 const ProtectedRoute = ({ children, allowedRoles }) => {
   const { user } = useAuth();
@@ -59,6 +61,26 @@ function App() {
             }
           />
 
+          {/* Admin Profile */}
+          <Route
+            path="/admin/profile"
+            element={
+              <ProtectedRoute allowedRoles={["admin"]}>
+                <AdminProfile />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* User Profile */}
+          <Route
+            path="/user/profile"
+            element={
+              <ProtectedRoute allowedRoles={["user"]}>
+                <UserProfile />
+              </ProtectedRoute>
+            }
+          />
+
           {/* Event Gallery (Both admin & user) */}
           <Route
             path="/media/:eventId"
@@ -78,16 +100,8 @@ function App() {
               </ProtectedRoute>
             }
           />
-          <Route
-             path="/profile"
-             element={
-             <ProtectedRoute>
-               <UserProfile />
-             </ProtectedRoute>
-            }
-          />
-           
-          {/* Catch-all to redirect unknown routes */}
+
+          {/* Catch-all for unknown routes */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </Router>

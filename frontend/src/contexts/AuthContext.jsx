@@ -12,14 +12,14 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = (userData, token) => {
-    localStorage.setItem("user", JSON.stringify(userData));
-    localStorage.setItem("token", token);
-    setUser(userData);
+    // 👇 Save token inside the user object itself
+    const fullUser = { ...userData, token };
+    localStorage.setItem("user", JSON.stringify(fullUser));
+    setUser(fullUser);
   };
 
   const logout = () => {
     localStorage.removeItem("user");
-    localStorage.removeItem("token");
     setUser(null);
   };
 
@@ -29,6 +29,5 @@ export const AuthProvider = ({ children }) => {
     </AuthContext.Provider>
   );
 };
-
 
 export const useAuth = () => useContext(AuthContext);

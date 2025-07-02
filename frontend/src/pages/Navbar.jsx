@@ -1,13 +1,24 @@
 import React from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext'; 
+import { useAuth } from '../contexts/AuthContext';
 import './Navbar.css';
-import logo from '../assets/bg.png'; 
+import logo from '../assets/bg.png';
+import defaultAvatar from '../assets/profile.png'; // ✅ import default image
 
 const Navbar = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { user } = useAuth(); 
+  const { user } = useAuth(); // ✅ use context directly
+
+  const handleProfileClick = () => {
+    if (user?.role === 'admin') {
+      navigate('/admin/profile');
+    } else if (user?.role === 'user') {
+      navigate('/user/profile');
+    } else {
+      navigate('/profile');
+    }
+  };
 
   return (
     <header className="navbar">
@@ -16,8 +27,10 @@ const Navbar = () => {
         <h2>Event Vibes</h2>
       </div>
 
-      <nav className="navbar-links">
-        <Link to="/" className={location.pathname === '/' ? 'active' : ''}>Home</Link>
+      <nav className="navbar-actions">
+        <Link to="/" className={location.pathname === '/' ? 'active' : ''}>
+          Home
+        </Link>
 
         {user?.role === 'admin' && (
           <Link to="/admin" className={location.pathname === '/admin' ? 'active' : ''}>
@@ -30,20 +43,20 @@ const Navbar = () => {
             Folders
           </Link>
         )}
-      </nav>
 
-      {user && (
-        <div
-          className="navbar-profile-pic"
-          onClick={() => navigate('/profile')}
-          title="Profile"
-        >
-          <img
-            src={user.profilePic || "https://res.cloudinary.com/demo/image/upload/v1710000000/default-avatar.jpg"}
-            alt="Profile"
-          />
-        </div>
-      )}
+        {user && (
+          <div
+            className="navbar-profile-pic"
+            onClick={handleProfileClick}
+            title="Profile"
+          >
+            <img
+              src={user.profilePic && user.profilePic.trim() !== '' ? user.profilePic : defaultAvatar}
+              alt="Profile"
+            />
+          </div>
+        )}
+      </nav>
     </header>
   );
 };
