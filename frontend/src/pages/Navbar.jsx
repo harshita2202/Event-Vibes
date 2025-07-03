@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import './Navbar.css';
-import logo from '../assets/eventLogo.png';
+import logo from '../assets/favicon.png';
 import defaultAvatar from '../assets/profile.png';
 import { FaBell, FaPowerOff } from 'react-icons/fa'; // ✅ Added FaPowerOff
 import axios from '../utils/axiosInstance';

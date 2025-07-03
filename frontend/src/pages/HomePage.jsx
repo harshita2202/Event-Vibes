@@ -1,18 +1,26 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './HomePage.css';
-import bgImage from '../assets/bg.png';
-import appIcon from '../assets/eventLogo.png'; 
+import appIcon from '../assets/favicon.png';
+import sabrang from '../assets/sabrang.jpeg'; // Optional: used for hero only
+
+// 🖼️ Import unique folder images
+import arambh from '../assets/arambh.jpeg';
+import homePage from '../assets/homePage.jpeg';
+import Freshers from '../assets/freshers.jpeg';
+import techfest from '../assets/techfest.jpeg';
+import republic from '../assets/republic.jpeg';
 
 const Home = () => {
   const navigate = useNavigate();
 
-  const folderTitles = [
-    "Aarambh",
-    "Sabrang",
-    "Freshers",
-    "Tech Fest",
-    "Republic Day",
+  // 📦 Folder titles and their images
+  const folders = [
+    { title: "Aarambh", image: arambh },
+    { title: "Sabrang", image: homePage },
+    { title: "Freshers", image: Freshers },
+    { title: "Tech Fest", image: techfest },
+    { title: "Republic Day", image: republic },
   ];
 
   return (
@@ -23,13 +31,13 @@ const Home = () => {
           <div className="logo">Event Vibes</div>
         </div>
         <button className="nav-btn" onClick={() => navigate('/login')}>
-          Login
+          Login / Register
         </button>
       </nav>
 
       <div
         className="home-image"
-        style={{ backgroundImage: `url(${bgImage})` }}
+        style={{ backgroundImage: `url(${sabrang})` }}
       >
         <div className="center-content">
           <h1 className="main-title">Event Folders</h1>
@@ -37,13 +45,13 @@ const Home = () => {
       </div>
 
       <div className="folder-section">
-        {folderTitles.map((title, index) => (
+        {folders.map((folder, index) => (
           <div
             key={index}
             className="folder"
-            style={{ backgroundImage: `url(${bgImage})` }}
+            style={{ backgroundImage: `url(${folder.image})` }}
           >
-            <div className="folder-title">{title}</div>
+            <div className="folder-title">{folder.title}</div>
           </div>
         ))}
       </div>

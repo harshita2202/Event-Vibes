@@ -3,10 +3,11 @@
   justify-content: space-between;
   align-items: center;
   padding: 12px 24px;
-  border-bottom: 1px solid #ededed;
-  background-color: #fff;
+  border-bottom: 1px solid #DDEBE7;
+  background-color: #f6fffc;
 }
 
+/* Logo Area */
 .navbar-logo {
   display: flex;
   align-items: center;
@@ -22,7 +23,7 @@
 .navbar-logo h2 {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #141414;
+  color: #3D6353;
   margin: 0;
   line-height: 1;
 }
@@ -42,7 +43,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: #141414;
+  color: #3D6353;
   text-decoration: none !important;
   font-size: 0.95rem;
   font-weight: 500;
@@ -59,15 +60,19 @@
   left: 0;
   width: 0%;
   height: 2px;
-  background-color: #141414;
+  background-color: #5CBCA7;
   transition: width 0.3s ease;
+}
+
+.navbar-actions a:hover {
+  color: #5CBCA7;
 }
 
 .navbar-actions a:hover::after {
   width: 100%;
 }
 
-/* NEW: icon-only link hover effect (like for power icon) */
+/* Icon-only hover effect */
 .navbar-actions a svg {
   font-size: 18px;
   transition: transform 0.2s ease;
@@ -84,7 +89,7 @@
   border-radius: 50%;
   overflow: hidden;
   cursor: pointer;
-  border: 2px solid #eee;
+  border: 2px solid #DDEBE7;
   transition: transform 0.2s ease;
 }
 
@@ -112,14 +117,19 @@
 .notification-bell {
   font-size: 20px;
   cursor: pointer;
-  color: #333;
+  color: #3D6353;
+  transition: color 0.2s ease;
+}
+
+.notification-bell:hover {
+  color: #5CBCA7;
 }
 
 .notification-badge {
   position: absolute;
   top: -5px;
   right: -8px;
-  background-color: red;
+  background-color: #e05260;
   color: white;
   font-size: 12px;
   padding: 2px 6px;
@@ -134,10 +144,10 @@
   right: 0;
   width: 300px;
   background: white;
-  border: 1px solid #ccc;
+  border: 1px solid #DDEBE7;
   border-radius: 10px;
   padding: 12px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   z-index: 99;
   max-height: 400px;
   overflow-y: auto;
@@ -147,4 +157,5 @@
   padding: 10px;
   border-bottom: 1px solid #eee;
   font-size: 14px;
+  color: #333;
 }

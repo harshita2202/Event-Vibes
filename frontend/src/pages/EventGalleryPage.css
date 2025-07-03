@@ -2,6 +2,7 @@
   display: flex;
   transition: all 0.3s ease;
   gap: 1rem;
+  background-color: #E6F0FA;
 }
 
 .gallery-main {
@@ -13,9 +14,9 @@
 .side-form-panel {
   flex: 1;
   transition: all 0.3s ease;
-  background: #f9f9f9;
+  background: #F5F5FA;
   padding: 1rem;
-  border-left: 1px solid #ddd;
+  border-left: 1px solid #DADAE3;
   display: none;
 }
 
@@ -31,17 +32,21 @@
 }
 
 .upload-btn {
-  padding: 8px 16px;
-  background-color: #007bff;
+  padding: 10px 20px;
+  background-color: #5CBCA7;
   color: #fff;
   border: none;
-  border-radius: 6px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 4px 10px rgba(160, 208, 160, 0.2);
 }
 
 .upload-btn:hover {
-  background-color: #0056b3;
+  background-color: #7DDDC2;
+  transform: scale(1.05);
 }
 
 .media-grid {
@@ -55,16 +60,17 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background: white;
-  border-radius: 0.5rem;
+  background: #fff;
+  border-radius: 0.75rem;
   overflow: hidden;
   cursor: pointer;
-  transition: transform 0.2s ease;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  border: 2px solid #A4CFE1;
 }
 
 .media-card:hover {
   transform: scale(1.02);
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
 }
 
 .media-card:hover .delete-btn {
@@ -74,19 +80,20 @@
 .media-card img,
 .media-card video {
   width: 100%;
-  height: 180px; /* Fixed height for thumbnails */
+  height: 180px;
   object-fit: cover;
-  border-radius: 0.5rem 0.5rem 0 0;
+  border-radius: 0.75rem 0.75rem 0 0;
   display: block;
 }
 
+/* Delete Button */
 .delete-btn {
   display: none;
   position: absolute;
   top: 8px;
   left: 8px;
   font-size: 1.5rem;
-  color: #ff1a1a;
+  color: #e0245e;
   background: none;
   border: none;
   cursor: pointer;
@@ -95,18 +102,17 @@
 }
 
 .delete-btn:hover {
-  color: #cc0000;
-  background: transparent !important;
+  color: #b91d4f;
 }
 
-/* Preview overlay */
+/* Preview Overlay */
 .preview-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.85);
+  background: rgba(20, 20, 20, 0.9);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -118,8 +124,7 @@
   max-width: 90%;
   max-height: 90%;
   overflow: auto;
-  border-radius: 0.5rem;
-  padding: 0;
+  border-radius: 1rem;
   background: transparent;
 }
 
@@ -130,10 +135,9 @@
   object-fit: contain;
   display: block;
   margin: auto;
-  border: none !important;
 }
 
-
+/* Close Button */
 .close-btn {
   position: fixed;
   top: 20px;
@@ -144,19 +148,17 @@
   border: none;
   cursor: pointer;
   z-index: 1002;
-  line-height: 1;
   padding: 0;
 }
 
 .close-btn:hover {
   color: #ffdddd;
-  background: transparent !important;
 }
 
-/* 🔽 Preview text */
+/* Preview Caption & Uploader */
 .preview-details {
   text-align: center;
-  color: white;
+  color: #fff;
   margin-top: 1rem;
   padding: 0 1rem;
 }
@@ -172,17 +174,17 @@
   opacity: 0.85;
 }
 
-/* 🔽 Like section below image */
+/* Like Section */
 .like-section {
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  gap: 6px;
-  padding: 0.4rem 0.5rem;
-  background: rgba(255, 255, 255, 0.9);
-  border-top: 1px solid #eee;
-  transition: all 0.3s ease;
+  gap: 8px;
+  padding: 0.5rem 0.75rem;
+  background: rgba(255, 255, 255, 0.95);
+  border-top: 1px solid #E0E0E0;
   cursor: pointer;
+  border-radius: 0 0 0.75rem 0.75rem;
 }
 
 .like-icon {

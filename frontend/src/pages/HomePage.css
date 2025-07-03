@@ -4,7 +4,7 @@ body, html {
   padding: 0;
   height: 100%;
   font-family: 'Poppins', sans-serif;
-  background: #E6F0FA;
+  background: #E6F0FA; /* Sky Blue Background */
 }
 
 .home-container {
@@ -18,10 +18,11 @@ body, html {
   display: flex;
   align-items: center;
   padding: 16px 40px;
-  background-color: white;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  background-color: #F5F5FA; /* Light Lavender */
+  box-shadow: 0 2px 6px rgba(164, 207, 225, 0.3);
   position: relative;
   justify-content: space-between;
+  border-bottom: 1px solid #DADAE3;
 }
 
 .logo-container {
@@ -38,37 +39,35 @@ body, html {
 .logo {
   font-size: 22px;
   font-weight: 700;
-  color: #222;
+  color: #333;
 }
 
+/* Login Button */
 .nav-btn {
-  background: none;
+  background-color: #5CBCA7; /* Mint Green */
   border: none;
-  color: #333;
+  color: white;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
-  transition: font-weight 0.2s ease;
   text-decoration: none;
-  outline: none;
-  padding: 0;
+  padding: 8px 20px;
+  border-radius: 20px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
   position: absolute;
   right: 40px;
   top: 16px;
 }
 
 .nav-btn:hover {
-  font-weight: 700;
-  background: none;
-  border: none;
-  color: #000;
+  background-color: #7DDDC2;
+  transform: scale(1.05);
 }
 
 .nav-btn:focus,
 .nav-btn:active {
   outline: none;
-  background: none;
-  border: none;
+  background-color: #52A991;
 }
 
 /* Hero Section */
@@ -83,7 +82,8 @@ body, html {
   align-items: center;
   justify-content: center;
   border-radius: 20px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 6px 16px rgba(92, 188, 167, 0.2);
+  border: 2px solid #A4CFE1;
 }
 
 .center-content {
@@ -116,10 +116,17 @@ body, html {
   background-position: center;
   border-radius: 12px;
   position: relative;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 6px 10px rgba(160, 208, 160, 0.25);
   display: flex;
   align-items: flex-end;
   overflow: hidden;
+  border: 1px solid #CDE5E1;
+  transition: transform 0.3s ease;
+}
+
+.folder:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(92, 188, 167, 0.3);
 }
 
 .folder-title {
@@ -144,8 +151,9 @@ body, html {
   }
 
   .nav-btn {
-    right: 20px;
-    top: 16px;
+    position: static;
+    align-self: flex-end;
+    margin-top: 10px;
   }
 
   .main-title {

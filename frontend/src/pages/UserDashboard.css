@@ -1,81 +1,89 @@
 .group/design-root {
-  font-family: Inter, "Noto Sans", sans-serif;
-  background-color: #f9f9f9;
+  font-family: 'Poppins', sans-serif;
+  background-color: #E6F0FA;
   min-height: 100vh;
 }
 
+/* Header */
 header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 20px;
-  border-bottom: 1px solid #ededed;
-  background-color: #fff;
+  padding: 16px 40px;
+  border-bottom: 1px solid #DADAE3;
+  background-color: #F5F5FA;
+  box-shadow: 0 2px 8px rgba(164, 207, 225, 0.2);
 }
 
 header .logo {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
 }
 
 header .logo img.app-logo {
-  width: 28px;
-  height: 28px;
+  width: 32px;
+  height: 32px;
   object-fit: contain;
 }
 
 header .logo h2 {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #141414;
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #222;
   margin: 0;
+  letter-spacing: -0.5px;
 }
 
 header nav {
   display: flex;
-  gap: 20px;
+  gap: 24px;
 }
 
 header nav a {
-  font-size: 0.875rem;
+  font-size: 0.95rem;
   font-weight: 500;
-  color: #141414;
+  color: #333;
   text-decoration: none;
+  transition: color 0.2s ease;
 }
 
+header nav a:hover,
 header nav a.active {
+  color: #5CBCA7;
   font-weight: 600;
-  color: #007bff;
   text-decoration: underline;
 }
 
 header .profile {
-  width: 40px;
-  height: 40px;
+  width: 42px;
+  height: 42px;
   border-radius: 50%;
-  background-color: #ccc;
+  background-color: #CDE5E1;
   background-size: cover;
   background-position: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
+/* Layout */
 .layout-content-container {
-  padding: 20px 40px;
-  max-width: 1200px;
+  padding: 30px 60px;
+  max-width: 1300px;
   margin: 0 auto;
 }
 
 .layout-content-container h3 {
-  font-size: 2rem;
+  font-size: 2.4rem;
   font-weight: 700;
-  color: #141414;
-  margin-bottom: 20px;
+  color: #333;
+  margin-bottom: 24px;
 }
 
+/* Folder Grid */
 .folder-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr); /* 4 folders in one row */
-  gap: 20px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 28px;
 }
 
 @media (max-width: 1024px) {
@@ -101,26 +109,30 @@ header .profile {
   flex-direction: column;
   align-items: center;
   text-align: center;
-  transition: transform 0.2s ease;
+  transition: transform 0.25s ease;
+  cursor: pointer;
 }
 
 .folder-card:hover {
-  transform: scale(1.03);
+  transform: translateY(-4px) scale(1.02);
 }
 
 .folder-card .card-image {
-  width: 150px;
-  height: 150px;
-  border-radius: 10px;
+  width: 160px;
+  height: 160px;
+  border-radius: 16px;
   background-size: cover;
   background-position: center;
-  margin-bottom: 10px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+  margin-bottom: 14px;
+  box-shadow: 0 4px 12px rgba(160, 208, 160, 0.15);
+  border: 2px solid #A4CFE1;
 }
 
 .folder-card p {
-  font-size: 0.9rem;
-  font-weight: 500;
+  font-size: 1rem;
+  font-weight: 600;
   color: #141414;
   margin: 0;
+  letter-spacing: 0.3px;
+  text-shadow: 0 1px 0 rgba(255,255,255,0.4);
 }
