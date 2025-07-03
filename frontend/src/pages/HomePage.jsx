@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './HomePage.css';
 import bgImage from '../assets/bg.png';
-import appIcon from '../assets/bg.png'; 
+import appIcon from '../assets/eventLogo.png'; 
 
 const Home = () => {
   const navigate = useNavigate();

@@ -73,22 +73,24 @@ const AdminProfile = () => {
   const handleLike = async (mediaId) => {
     try {
       const res = await axios.post(`/media/${mediaId}/like`);
+      const { likedByUser } = res.data;
+    
       setMedia((prev) =>
-        prev.map((m) =>
-          m._id === mediaId
-            ? {
-                ...m,
-                likes: res.data.likesCount
-                  ? [...(m.likes || []), user._id]
-                  : m.likes.filter((id) => id !== user._id),
-              }
-            : m
-        )
+        prev.map((m) => {
+          if (m._id !== mediaId) return m;
+        
+          const updatedLikes = likedByUser
+            ? [...(m.likes || []), user._id] // add like
+            : m.likes.filter((id) => id !== user._id); // remove like
+        
+          return { ...m, likes: updatedLikes };
+        })
       );
     } catch (err) {
-      console.error('Error liking media:', err);
+      console.error('Error toggling like:', err);
     }
   };
+
 
   const handleDelete = async (mediaId) => {
     const confirmDelete = window.confirm('Are you sure you want to delete this media?');

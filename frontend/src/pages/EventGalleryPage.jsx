@@ -46,16 +46,26 @@ const EventGalleryPage = () => {
   const handleLike = async (mediaId) => {
     try {
       const res = await axios.post(`/media/${mediaId}/like`);
+      const { likedByUser } = res.data;
+    
       setMediaList(prev =>
-        prev.map(m =>
-          m._id === mediaId ? { ...m, likes: res.data.likesCount ? [...(m.likes || []), user._id] : m.likes.filter(id => id !== user._id) } : m
-        )
+        prev.map(m => {
+          if (m._id !== mediaId) return m;
+        
+          let updatedLikes;
+          if (likedByUser) {
+            updatedLikes = [...(m.likes || []), user._id]; // add like
+          } else {
+            updatedLikes = m.likes?.filter(id => id !== user._id); // remove like
+          }
+        
+          return { ...m, likes: updatedLikes };
+        })
       );
     } catch (err) {
-      console.error('Error liking media:', err);
+      console.error('Error toggling like:', err);
     }
   };
-
   return (
     <div className="group/design-root">
       <Navbar />
