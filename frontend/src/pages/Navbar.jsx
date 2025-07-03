@@ -4,7 +4,7 @@ import { useAuth } from '../contexts/AuthContext';
 import './Navbar.css';
 import logo from '../assets/eventLogo.png';
 import defaultAvatar from '../assets/profile.png';
-import { FaBell } from 'react-icons/fa';
+import { FaBell, FaPowerOff } from 'react-icons/fa'; // ✅ Added FaPowerOff
 import axios from '../utils/axiosInstance';
 
 const Navbar = () => {
@@ -74,7 +74,10 @@ const Navbar = () => {
       </div>
 
       <nav className="navbar-actions">
-        <Link to="/" className={location.pathname === '/' ? 'active' : ''}>Home</Link>
+        {/* ✅ Replaced 'Home' text with power icon */}
+        <Link to="/" className={location.pathname === '/' ? 'active' : ''} title="Home">
+          <FaPowerOff size={18} />
+        </Link>
 
         {user?.role === 'admin' && (
           <Link to="/admin" className={location.pathname === '/admin' ? 'active' : ''}>

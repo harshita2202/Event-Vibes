@@ -27,7 +27,7 @@
   line-height: 1;
 }
 
-/* NEW: Right-aligned actions (Home, Folders, Profile) */
+/* Right-aligned actions (Folders, Profile, etc.) */
 .navbar-actions {
   display: flex;
   align-items: center;
@@ -39,7 +39,9 @@
 .navbar-actions a:visited,
 .navbar-actions a:focus,
 .navbar-actions a:active {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   color: #141414;
   text-decoration: none !important;
   font-size: 0.95rem;
@@ -47,6 +49,7 @@
   position: relative;
   padding-bottom: 4px;
   line-height: 1.5;
+  transition: color 0.3s ease;
 }
 
 .navbar-actions a::after {
@@ -64,6 +67,17 @@
   width: 100%;
 }
 
+/* NEW: icon-only link hover effect (like for power icon) */
+.navbar-actions a svg {
+  font-size: 18px;
+  transition: transform 0.2s ease;
+}
+
+.navbar-actions a:hover svg {
+  transform: scale(1.2);
+}
+
+/* Profile Picture */
 .navbar-actions .navbar-profile-pic {
   width: 32px;
   height: 32px;
@@ -83,15 +97,35 @@
   height: 100%;
   object-fit: cover;
 }
+
+/* Notification Styles */
 .navbar-notification-wrapper {
   position: relative;
   margin-right: 16px;
+}
+
+.bell-container {
+  position: relative;
+  cursor: pointer;
 }
 
 .notification-bell {
   font-size: 20px;
   cursor: pointer;
   color: #333;
+}
+
+.notification-badge {
+  position: absolute;
+  top: -5px;
+  right: -8px;
+  background-color: red;
+  color: white;
+  font-size: 12px;
+  padding: 2px 6px;
+  border-radius: 999px;
+  font-weight: bold;
+  z-index: 10;
 }
 
 .notification-dropdown {
@@ -114,21 +148,3 @@
   border-bottom: 1px solid #eee;
   font-size: 14px;
 }
-.bell-container {
-  position: relative;
-  cursor: pointer;
-}
-
-.notification-badge {
-  position: absolute;
-  top: -5px;
-  right: -8px;
-  background-color: red;
-  color: white;
-  font-size: 12px;
-  padding: 2px 6px;
-  border-radius: 999px;
-  font-weight: bold;
-  z-index: 10;
-}
-
