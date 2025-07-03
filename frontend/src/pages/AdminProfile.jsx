@@ -70,27 +70,37 @@ const AdminProfile = () => {
     }
   };
 
-  const handleLike = async (mediaId) => {
+  const handleDeletePic = async () => {
+    const confirm = window.confirm('Are you sure you want to delete your profile picture?');
+    if (!confirm) return;
+
     try {
-      const res = await axios.post(`/media/${mediaId}/like`);
-      const { likedByUser } = res.data;
-    
-      setMedia((prev) =>
-        prev.map((m) => {
-          if (m._id !== mediaId) return m;
-        
-          const updatedLikes = likedByUser
-            ? [...(m.likes || []), user._id] // add like
-            : m.likes.filter((id) => id !== user._id); // remove like
-        
-          return { ...m, likes: updatedLikes };
-        })
-      );
+      await axios.put('/users/delete-profile-pic');
+      window.location.reload();
     } catch (err) {
-      console.error('Error toggling like:', err);
+      alert('Failed to delete profile picture');
     }
   };
 
+  const handleLike = async (mediaId) => {
+    try {
+      const res = await axios.post(`/media/${mediaId}/like`);
+      setMedia((prev) =>
+        prev.map((m) =>
+          m._id === mediaId
+            ? {
+                ...m,
+                likes: res.data.likesCount
+                  ? [...(m.likes || []), user._id]
+                  : m.likes.filter((id) => id !== user._id),
+              }
+            : m
+        )
+      );
+    } catch (err) {
+      console.error('Error liking media:', err);
+    }
+  };
 
   const handleDelete = async (mediaId) => {
     const confirmDelete = window.confirm('Are you sure you want to delete this media?');
@@ -141,7 +151,10 @@ const AdminProfile = () => {
             {showPicUpload && (
               <div className="pic-upload-inline">
                 <input type="file" accept="image/*" onChange={(e) => setNewPic(e.target.files[0])} />
-                <button className="green-btn" onClick={handlePicUpload}>Upload</button>
+                <div className="btn-row">
+                  <button className="green-btn" onClick={handlePicUpload}>Upload</button>
+                  <button className="red-btn" onClick={handleDeletePic}>Delete</button>
+                </div>
                 {uploading && <div className="uploading-text">Uploading...</div>}
               </div>
             )}
