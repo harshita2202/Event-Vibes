@@ -96,6 +96,9 @@ const Login = () => {
           <button type="submit" className="submit">
             Sign In
           </button>
+          <div className="mobile-toggle" onClick={handleToggle}>
+            Don't have an account? Sign up
+          </div>
         </form>
 
         <div className="sub-cont">
@@ -158,6 +161,9 @@ const Login = () => {
             <button type="submit" className="submit">
               Sign Up
             </button>
+            <div className="mobile-toggle" onClick={handleToggle}>
+              Already have an account? Sign in
+            </div>
           </form>
         </div>
       </div>

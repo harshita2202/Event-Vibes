@@ -3,6 +3,7 @@
   transition: all 0.3s ease;
   gap: 1rem;
   background-color: #E6F0FA;
+  z-index: 1;
 }
 
 .gallery-main {
@@ -93,16 +94,19 @@
   top: 8px;
   left: 8px;
   font-size: 1.5rem;
-  color: #e0245e;
-  background: none;
+  background: none !important;
   border: none;
   cursor: pointer;
   z-index: 2;
   padding: 0;
+  color: inherit;
 }
 
 .delete-btn:hover {
-  color: #b91d4f;
+  background: none !important;
+  color: inherit !important;
+  box-shadow: none !important;
+  outline: none !important;
 }
 
 /* Preview Overlay */
@@ -135,24 +139,6 @@
   object-fit: contain;
   display: block;
   margin: auto;
-}
-
-/* Close Button */
-.close-btn {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  font-size: 2.5rem;
-  color: white;
-  background: none;
-  border: none;
-  cursor: pointer;
-  z-index: 1002;
-  padding: 0;
-}
-
-.close-btn:hover {
-  color: #ffdddd;
 }
 
 /* Preview Caption & Uploader */
@@ -202,4 +188,183 @@
   font-size: 0.95rem;
   font-weight: 500;
   color: #333;
+}
+
+/* Common circular style */
+.close-btn,
+.download-btn {
+  position: fixed;
+  top: 20px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.5); /* dark transparent background */
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  z-index: 1002;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+/* Close on top-right */
+.close-btn {
+  right: 20px;
+}
+
+/* Download on slightly left of close */
+.download-btn {
+  right: 70px;
+}
+
+/* Hover effect */
+.close-btn:hover,
+.download-btn:hover {
+  background: rgba(0, 0, 0, 0.8);
+  transform: scale(1.1);
+  color: #00ccff;
+}
+
+@media (max-width: 768px) {
+  .gallery-container {
+    flex-direction: column;
+  }
+
+  .gallery-main {
+    flex: 1;
+    padding: 0.75rem;
+  }
+
+  .upload-btn-wrapper {
+    position: static;
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .upload-btn {
+    padding: 8px 16px;
+    font-size: 14px;
+    width: auto; 
+    max-width: 200px;
+  }
+
+  .media-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    padding-top: 1rem;
+  }
+
+  .media-card img,
+  .media-card video {
+    height: 140px;
+  }
+
+  .side-form-panel {
+    display: none;
+  }
+
+  .side-form-panel.visible {
+    display: block;
+    width: 100%;
+    padding: 1rem;
+    border-left: none;
+  }
+
+  .form-actions {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .form-actions button {
+    width: 100%;
+  }
+
+  .preview-content {
+    max-width: 95%;
+    max-height: 90%;
+  }
+
+  .preview-content img,
+  .preview-content video {
+    max-height: 60vh;
+  }
+
+  .preview-details .caption {
+    font-size: 1rem;
+  }
+
+  .preview-details .uploader {
+    font-size: 0.85rem;
+  }
+
+  .close-btn,
+  .download-btn {
+    width: 36px;
+    height: 36px;
+    font-size: 18px;
+  }
+
+  .close-btn {
+    top: 10px;
+    right: 10px;
+  }
+
+  .download-btn {
+    top: 10px;
+    right: 56px;
+  }
+}
+
+@media (min-width: 769px) {
+  .mobile-form-overlay {
+    display: none !important;
+  }
+}
+
+
+.mobile-form-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 2000; 
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 20px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  overflow-y: auto; 
+}
+
+.mobile-form-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.mobile-form-container {
+  background: white;
+  width: 90%;
+  max-width: 500px;
+  border-radius: 14px;
+  padding: 20px;
+  transform: translateY(-20px);
+  transition: transform 0.3s ease;
+  max-height: 80vh; 
+  margin-bottom: 20px; 
+  position: relative; 
+  z-index: 1001; 
+}
+
+body.form-open {
+  overflow: hidden;
+  position: fixed;
+  width: 100%;
 }

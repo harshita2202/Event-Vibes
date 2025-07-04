@@ -127,15 +127,17 @@ const UserProfile = () => {
             <div className="edit-section">
               <label>Change Name</label>
               <input value={name} onChange={(e) => setName(e.target.value)} />
-              <button className="green-btn" onClick={handleNameUpdate}>Update Name</button>
             </div>
             <div className="edit-section">
               <label>Change Password</label>
               <input type="password" placeholder="Current password" value={oldPwd} onChange={(e) => setOldPwd(e.target.value)} />
               <input type="password" placeholder="New password" value={newPwd} onChange={(e) => setNewPwd(e.target.value)} />
-              <button className="green-btn" onClick={handlePasswordUpdate}>Update Password</button>
             </div>
-            <button className="red-btn" onClick={() => setShowSettings(false)}>Cancel</button>
+            <div className="btn-container">
+              <button className="green-btn" onClick={handleNameUpdate}>Update Name</button>
+              <button className="green-btn" onClick={handlePasswordUpdate}>Update Password</button>
+              <button className="red-btn" onClick={() => setShowSettings(false)}>Cancel</button>
+            </div>
           </div>
         )}
 
@@ -152,8 +154,12 @@ const UserProfile = () => {
               <div className="pic-upload-inline">
                 <input type="file" accept="image/*" onChange={(e) => setNewPic(e.target.files[0])} />
                 <div className="btn-row">
-                  <button className="green-btn" onClick={handlePicUpload}>Upload</button>
-                  <button className="red-btn" onClick={handleDeletePic}>Delete</button>
+                  <button className="green-btn small-btn" onClick={handlePicUpload}>
+                    {uploading ? 'Uploading...' : 'Upload'}
+                  </button>
+                  <button className="red-btn small-btn" onClick={handleDeletePic}>
+                    Delete
+                  </button>
                 </div>
                 {uploading && <div className="uploading-text">Uploading...</div>}
               </div>

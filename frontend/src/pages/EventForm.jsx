@@ -83,7 +83,7 @@ const EventForm = ({ existingEvent, onClose, onSuccess }) => {
         disabled={loading}
       />
 
-      <label>Cover Image</label>
+      <label>Cover Image <span style={{ color: 'red' }}>*</span></label>
       <input
         type="text"
         placeholder="Image URL (optional if uploading)"

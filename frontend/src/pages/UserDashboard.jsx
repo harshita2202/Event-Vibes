@@ -26,7 +26,7 @@ const UserDashboard = () => {
   };
 
   return (
-    <div className="group/design-root">
+    <div className="dashboard-root">
       <Navbar />
       <div className="layout-content-container">
         <h3>Event Folders</h3>

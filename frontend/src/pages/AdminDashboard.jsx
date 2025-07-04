@@ -36,8 +36,19 @@ const AdminDashboard = () => {
     }
   };
 
+  const handleFormClose = () => {
+    setShowForm(false);
+    setEditingEvent(null);
+  };
+
+  const handleFormSuccess = () => {
+    fetchEvents();
+    setShowForm(false);
+    setEditingEvent(null);
+  };
+
   return (
-    <div className="group/design-root">
+    <div className="dashboard-root">
       <Navbar />
       <div className={`admin-dashboard-container ${showForm ? 'form-open' : ''}`}>
         <div className="admin-dashboard">
@@ -92,22 +103,29 @@ const AdminDashboard = () => {
           </div>
         </div>
 
+        {/* Desktop Form Panel */}
         <div className={`side-form-panel ${showForm ? 'visible' : ''}`}>
           {showForm && (
             <EventForm
-              onClose={() => {
-                setShowForm(false);
-                setEditingEvent(null);
-              }}
-              onSuccess={() => {
-                fetchEvents();
-                setShowForm(false);
-                setEditingEvent(null);
-              }}
+              onClose={handleFormClose}
+              onSuccess={handleFormSuccess}
               existingEvent={editingEvent}
             />
           )}
         </div>
+      </div>
+
+      {/* Mobile Form Overlay */}
+      <div className={`mobile-form-overlay ${showForm ? 'active' : ''}`}>
+        {showForm && (
+          <div className="mobile-form-container">
+            <EventForm
+              onClose={handleFormClose}
+              onSuccess={handleFormSuccess}
+              existingEvent={editingEvent}
+            />
+          </div>
+        )}
       </div>
     </div>
   );

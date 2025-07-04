@@ -309,3 +309,113 @@ body {
   display: flex;
   gap: 10px;
 }
+
+@media (max-width: 768px) {
+  .profile-container {
+    padding: 16px;
+  }
+
+  .profile-header-row {
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    text-align: center;
+  }
+
+  .profile-pic-wrapper-large {
+    width: 110px;
+    height: 110px;
+  }
+
+  .pic-upload-inline {
+    top: 120px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90vw;
+  }
+
+  .profile-info h2 {
+    font-size: 1.2rem;
+  }
+
+  .profile-info .subtitle {
+    font-size: 13px;
+  }
+
+  .overlay-form {
+    width: 90vw;
+    right: 50%;
+    transform: translateX(50%);
+    padding: 14px;
+  }
+
+  .edit-section input {
+    padding: 6px;
+    font-size: 14px;
+  }
+
+  .edit-section label {
+    font-size: 13px;
+  }
+
+  .media-section h3 {
+    font-size: 1.1rem;
+    margin-top: 24px;
+    text-align: center;
+  }
+
+  .media-grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 0.8rem;
+  }
+
+  .media-card img,
+  .media-card video {
+    height: 140px;
+  }
+
+  .like-section {
+    padding: 0.3rem 0.5rem;
+  }
+
+  .like-icon {
+    font-size: 1rem;
+  }
+
+  .like-count {
+    font-size: 0.85rem;
+  }
+
+  .preview-content {
+    width: 95vw;
+    max-height: 90vh;
+  }
+
+  .preview-details .caption {
+    font-size: 1rem;
+  }
+
+  .like-count-preview {
+    font-size: 0.9rem;
+  }
+
+  .btn-row {
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    margin-top: 6px;
+  }
+
+  .green-btn,
+  .red-btn {
+    width: 100%;
+    padding: 8px;
+    font-size: 14px;
+  }
+
+  .close-btn {
+    top: -20px;
+    right: 10px;
+    font-size: 2rem;
+  }
+}

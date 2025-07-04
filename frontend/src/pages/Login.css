@@ -21,25 +21,20 @@ button {
     font-family: 'Poppins', sans-serif;
 }
 
-.tip {
-    font-size: 20px;
-    margin: 40px auto 50px;
-    text-align: center;
-    color: #555; /* Darker gray */
-}
-
 .login-wrapper {
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 20px;
 }
 
 .cont {
   border-radius: 20px;
   overflow: hidden;
   position: relative;
-  width: 900px;
+  width: 100%;
+  max-width: 900px;
   height: 550px;
   background: linear-gradient(135deg, #F5F5FA, #EDE9F6);
   box-shadow: -10px -10px 15px rgba(201, 225, 245, 0.5),
@@ -79,12 +74,12 @@ button {
     color: #fff;
     font-size: 15px;
     cursor: pointer;
-    background: #5CBCA7; /* Darker mint */
+    background: #5CBCA7;
     transition: background 0.3s ease;
 }
 
 button:hover {
-    background: #7DDDC2; /* Slightly lighter mint on hover */
+    background: #7DDDC2;
 }
 
 .img {
@@ -132,11 +127,11 @@ button:hover {
     width: 100%;
     padding: 0 20px;
     text-align: center;
-    color: #333; /* Dark gray */
+    color: #333;
     transition: transform 1.5s ease-in-out;
 }
 
-.img__text h2 {
+.img__text h3 {
     margin-bottom: 10px;
     font-weight: 600;
 }
@@ -271,22 +266,6 @@ input {
     transform: translate3d(0, 0, 0);
 }
 
-@media (max-width: 768px) {
-    .cont {
-        width: 100%;
-        max-width: 500px;
-        height: auto;
-    }
-    .sub-cont {
-        padding-left: 0;
-        left: 0;
-    }
-    .img {
-        width: 100%;
-        padding-top: 200px;
-    }
-}
-
 .password-field {
   position: relative;
   display: flex;
@@ -308,4 +287,67 @@ input {
   cursor: pointer;
   font-size: 16px;
   color: #444;
+}
+
+/* Mobile styles */
+@media (max-width: 992px) {
+  .login-wrapper {
+    align-items: flex-start;
+    padding-top: 40px;
+    padding-bottom: 40px;
+  }
+
+  .cont {
+    height: auto;
+    max-width: 500px;
+  }
+
+  .form {
+    width: 100%;
+    height: auto;
+    padding: 30px 20px;
+    transform: none !important;
+  }
+
+  .sub-cont {
+    position: relative;
+    left: 0;
+    width: 100%;
+    height: auto;
+    padding-left: 0;
+    transform: none !important;
+  }
+
+  .img {
+    display: none;
+  }
+
+  .mobile-toggle {
+    display: block;
+    text-align: center;
+    margin: 20px 0;
+    color: #5CBCA7;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+
+  .desktop-only {
+    display: none;
+  }
+
+  .cont.s--signup .sign-in {
+    display: none;
+  }
+
+  .cont:not(.s--signup) .sign-up {
+    display: none;
+  }
+}
+
+/* Desktop-only elements */
+@media (min-width: 993px) {
+  .mobile-toggle {
+    display: none;
+  }
 }

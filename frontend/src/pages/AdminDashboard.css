@@ -193,3 +193,118 @@
   right: 0;
   z-index: 10;
 }
+
+@media (max-width: 768px) {
+  .admin-dashboard-container {
+    flex-direction: column;
+  }
+
+  .admin-dashboard-container.form-open .admin-dashboard {
+    width: 100%;
+  }
+
+  .side-form-panel.visible {
+    width: 100%;
+    height: auto;
+    position: relative;
+    box-shadow: none;
+    border-left: none;
+  }
+
+  .form-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .form-actions button {
+    width: 100%;
+  }
+
+  .create-btn {
+    right: 16px;
+  }
+}
+
+/* Add these new styles to your CSS file */
+.mobile-form-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  overflow-y: auto;
+}
+
+.mobile-form-container {
+  background: white;
+  margin: 20px;
+  padding: 20px;
+  border-radius: 10px;
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
+}
+
+@media (max-width: 768px) {
+  .side-form-panel {
+    display: none;
+  }
+  .desktop-form-container {
+    display: none;
+  }
+  .create-btn {
+    padding: absolute;
+    font-size: 13px;
+    right: 0px;
+    top: -15px;
+  }
+}
+
+@media (min-width: 769px) {
+  .mobile-form-overlay {
+    display: none !important;
+  }
+  .desktop-form-container {
+    display: block;
+  }
+}
+
+.mobile-form-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 20px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.mobile-form-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.mobile-form-container {
+  background: white;
+  width: 90%;
+  max-width: 500px;
+  border-radius: 14px;
+  padding: 20px;
+  transform: translateY(-20px);
+  transition: transform 0.3s ease;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.mobile-form-overlay.active .mobile-form-container {
+  transform: translateY(0);
+}

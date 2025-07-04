@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from '../utils/axiosInstance';
 import Navbar from './Navbar';
-import './AdminProfile.css';
+import './UserProfile.css';
 import { useAuth } from '../contexts/AuthContext';
 import defaultAvatar from '../assets/profile.png';
 import { FaHeart, FaRegHeart } from 'react-icons/fa';

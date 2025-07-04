@@ -5,7 +5,7 @@ import Navbar from './Navbar';
 import './EventGalleryPage.css';
 import UploadForm from './MediaPostPage';
 import { useAuth } from '../contexts/AuthContext';
-import { FaHeart, FaRegHeart } from 'react-icons/fa';
+import { FaHeart, FaRegHeart, FaDownload } from 'react-icons/fa';
 
 const EventGalleryPage = () => {
   const [mediaList, setMediaList] = useState([]);
@@ -13,6 +13,18 @@ const EventGalleryPage = () => {
   const [previewMedia, setPreviewMedia] = useState(null);
   const { eventId } = useParams();
   const { user } = useAuth();
+
+  useEffect(() => {
+    if (showForm) {
+      document.body.classList.add('form-open');
+    } else {
+      document.body.classList.remove('form-open');
+    }
+  
+    return () => {
+      document.body.classList.remove('form-open');
+    };
+  }, [showForm]);
 
   useEffect(() => {
     const fetchMedia = async () => {
@@ -54,9 +66,9 @@ const EventGalleryPage = () => {
         
           let updatedLikes;
           if (likedByUser) {
-            updatedLikes = [...(m.likes || []), user._id]; // add like
+            updatedLikes = [...(m.likes || []), user._id];
           } else {
-            updatedLikes = m.likes?.filter(id => id !== user._id); // remove like
+            updatedLikes = m.likes?.filter(id => id !== user._id);
           }
         
           return { ...m, likes: updatedLikes };
@@ -66,6 +78,37 @@ const EventGalleryPage = () => {
       console.error('Error toggling like:', err);
     }
   };
+
+  const handleDownload = async (url) => {
+    try {
+      const response = await fetch(url, { mode: 'cors' });
+      const blob = await response.blob();
+      const blobUrl = window.URL.createObjectURL(blob);
+
+      const a = document.createElement('a');
+      a.href = blobUrl;
+      a.download = 'image.jpg';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      window.URL.revokeObjectURL(blobUrl);
+    } catch (error) {
+      console.error('Download failed:', error);
+      alert("Unable to download image. Please try again.");
+    }
+  };
+
+  const handleFormSuccess = async () => {
+    setShowForm(false);
+    setPreviewMedia(null);
+    try {
+      const res = await axios.get(`/media/event/${eventId}`);
+      setMediaList(res.data);
+    } catch (err) {
+      console.error('Failed to fetch media:', err);
+    }
+  };
+
   return (
     <div className="group/design-root">
       <Navbar />
@@ -74,7 +117,11 @@ const EventGalleryPage = () => {
         <div className="gallery-main">
           {!showForm && (
             <div className="upload-btn-wrapper">
-              <button className="upload-btn" onClick={() => setShowForm(true)}>
+              <button 
+                className="upload-btn" 
+                onClick={() => setShowForm(true)}
+                aria-label="Upload media"
+              >
                 + Upload Media
               </button>
             </div>
@@ -87,81 +134,117 @@ const EventGalleryPage = () => {
               <p className="no-media-msg">No media uploaded yet.</p>
             ) : (
               mediaList.map((media) => {
-              const isLiked = media.likes?.includes(user?._id); // Check if current user liked it
-              return (
-                <div
-                  key={media._id}
-                  className="media-card"
-                  onClick={() => handlePreview(media)}
-                >
-                  {media.mediaType === 'image' ? (
-                    <img src={media.url} alt={media.caption || 'Media'} />
-                  ) : (
-                    <video src={media.url} />
-                  )}
+                const isLiked = media.likes?.includes(user?._id);
+                return (
+                  <div
+                    key={media._id}
+                    className="media-card"
+                    onClick={() => handlePreview(media)}
+                  >
+                    {media.mediaType === 'image' ? (
+                      <img 
+                        src={media.url} 
+                        alt={media.caption || 'Media'} 
+                        loading="lazy"
+                      />
+                    ) : (
+                      <video src={media.url} />
+                    )}
 
-                  {(user?.role === "admin" || user?._id === media?.uploaderId?._id) && (
-                    <button
-                      className="delete-btn"
+                    {(user?.role === "admin" || user?._id === media?.uploaderId?._id) && (
+                      <button
+                        className="delete-btn"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleDelete(media._id);
+                        }}
+                        aria-label="Delete media"
+                      >
+                        🗑️
+                      </button>
+                    )}
+
+                    <div
+                      className="like-section"
                       onClick={(e) => {
                         e.stopPropagation();
-                        handleDelete(media._id);
+                        handleLike(media._id);
                       }}
                     >
-                      🗑️
-                    </button>
-                  )}
-
-                  <div
-                    className="like-section"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleLike(media._id);
-                    }}
-                  >
-                    {isLiked ? (
-                      <FaHeart className="like-icon liked" />
-                    ) : (
-                      <FaRegHeart className="like-icon" />
-                    )}
-                    <span className="like-count">{media.likes?.length || 0}</span>
+                      {isLiked ? (
+                        <FaHeart className="like-icon liked" />
+                      ) : (
+                        <FaRegHeart className="like-icon" />
+                      )}
+                      <span className="like-count">{media.likes?.length || 0}</span>
+                    </div>
                   </div>
-                </div>
-              );
-            })
+                );
+              })
             )}
           </div>
         </div>
 
+        {/* Desktop Form Panel (hidden on mobile) */}
         <div className={`side-form-panel ${showForm ? 'visible' : ''}`}>
           {showForm && (
             <UploadForm
               eventId={eventId}
               onClose={() => setShowForm(false)}
-              onSuccess={async () => {
-                setShowForm(false);
-                setPreviewMedia(null);
-                try {
-                  const res = await axios.get(`/media/event/${eventId}`);
-                  setMediaList(res.data);
-                } catch (err) {
-                  console.error('Failed to fetch media:', err);
-                }
-              }}
+              onSuccess={handleFormSuccess}
             />
           )}
         </div>
       </div>
 
+      {/* Mobile Form Overlay (hidden on desktop) */}
+      <div className={`mobile-form-overlay ${showForm ? 'active' : ''}`}>
+        {showForm && (
+          <div className="mobile-form-container">
+            <UploadForm
+              eventId={eventId}
+              onClose={() => setShowForm(false)}
+              onSuccess={handleFormSuccess}
+            />
+          </div>
+        )}
+      </div>
+
+      {/* Media Preview Overlay */}
       {previewMedia && (
         <div className="preview-overlay" onClick={handleClosePreview}>
           <div className="preview-content" onClick={(e) => e.stopPropagation()}>
-            <button className="close-btn" onClick={handleClosePreview}>×</button>
+            <button 
+              className="close-btn" 
+              onClick={handleClosePreview}
+              aria-label="Close preview"
+            >
+              ×
+            </button>
+      
+            {previewMedia.mediaType === 'image' && (
+              <button
+                className="download-btn"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleDownload(previewMedia.url);
+                }}
+                aria-label="Download image"
+              >
+                <FaDownload />
+              </button>
+            )}
+      
             {previewMedia.mediaType === 'image' ? (
-              <img src={previewMedia.url} alt="Preview" className="no-border-preview" />
+              <img
+                src={previewMedia.url}
+                alt="Preview"
+                className="no-border-preview"
+              />
             ) : (
               <video src={previewMedia.url} controls />
             )}
+      
             <div className="preview-details">
               {previewMedia.caption && <p className="caption">{previewMedia.caption}</p>}
               {previewMedia.uploaderId?.name && (
