@@ -67,6 +67,7 @@
   cursor: pointer;
   transition: transform 0.25s ease, box-shadow 0.25s ease;
   border: 2px solid #A4CFE1;
+  position: relative;
 }
 
 .media-card:hover {
@@ -198,7 +199,7 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: rgba(0, 0, 0, 0.5); /* dark transparent background */
+  background: rgba(0, 0, 0, 0.5);
   border: none;
   color: white;
   font-size: 20px;
@@ -210,17 +211,14 @@
   transition: background 0.3s ease, transform 0.2s ease;
 }
 
-/* Close on top-right */
 .close-btn {
   right: 20px;
 }
 
-/* Download on slightly left of close */
 .download-btn {
   right: 70px;
 }
 
-/* Hover effect */
 .close-btn:hover,
 .download-btn:hover {
   background: rgba(0, 0, 0, 0.8);
@@ -228,6 +226,7 @@
   color: #00ccff;
 }
 
+/* Mobile */
 @media (max-width: 768px) {
   .gallery-container {
     flex-direction: column;
@@ -325,7 +324,6 @@
   }
 }
 
-
 .mobile-form-overlay {
   position: fixed;
   top: 0;
@@ -367,4 +365,78 @@ body.form-open {
   overflow: hidden;
   position: fixed;
   width: 100%;
+}
+
+/* ✅ New Split Layout for Preview */
+.preview-content.expanded {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  background: #ffffff;
+  padding: 1rem;
+  border-radius: 1rem;
+  max-height: 90vh;
+  overflow: auto;
+}
+
+.preview-layout {
+  display: flex;
+  gap: 1.5rem;
+  flex-direction: row;
+}
+
+.media-preview-left {
+  flex: 1.2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.media-preview-left img,
+.media-preview-left video {
+  max-width: 100%;
+  max-height: 70vh;
+  object-fit: contain;
+  border-radius: 0.5rem;
+  box-shadow: 0 0 10px rgba(0,0,0,0.15);
+}
+
+.media-preview-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 0.5rem 0;
+  overflow-y: auto;
+}
+
+.media-preview-right .caption {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #333;
+  word-wrap: break-word;
+}
+
+.media-preview-right .uploader {
+  font-size: 0.95rem;
+  color: #666;
+  font-style: italic;
+}
+
+@media (max-width: 768px) {
+  .preview-content.expanded {
+    flex-direction: column;
+    padding: 0.75rem;
+  }
+
+  .preview-layout {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .media-preview-left img,
+  .media-preview-left video {
+    max-height: 50vh;
+  }
 }

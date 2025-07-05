@@ -6,6 +6,7 @@ import './EventGalleryPage.css';
 import UploadForm from './MediaPostPage';
 import { useAuth } from '../contexts/AuthContext';
 import { FaHeart, FaRegHeart, FaDownload } from 'react-icons/fa';
+import CommentSection from './CommentSection'; // ✅ Added
 
 const EventGalleryPage = () => {
   const [mediaList, setMediaList] = useState([]);
@@ -20,7 +21,7 @@ const EventGalleryPage = () => {
     } else {
       document.body.classList.remove('form-open');
     }
-  
+
     return () => {
       document.body.classList.remove('form-open');
     };
@@ -59,18 +60,18 @@ const EventGalleryPage = () => {
     try {
       const res = await axios.post(`/media/${mediaId}/like`);
       const { likedByUser } = res.data;
-    
+
       setMediaList(prev =>
         prev.map(m => {
           if (m._id !== mediaId) return m;
-        
+
           let updatedLikes;
           if (likedByUser) {
             updatedLikes = [...(m.likes || []), user._id];
           } else {
             updatedLikes = m.likes?.filter(id => id !== user._id);
           }
-        
+
           return { ...m, likes: updatedLikes };
         })
       );
@@ -185,7 +186,6 @@ const EventGalleryPage = () => {
           </div>
         </div>
 
-        {/* Desktop Form Panel (hidden on mobile) */}
         <div className={`side-form-panel ${showForm ? 'visible' : ''}`}>
           {showForm && (
             <UploadForm
@@ -197,7 +197,6 @@ const EventGalleryPage = () => {
         </div>
       </div>
 
-      {/* Mobile Form Overlay (hidden on desktop) */}
       <div className={`mobile-form-overlay ${showForm ? 'active' : ''}`}>
         {showForm && (
           <div className="mobile-form-container">
@@ -210,46 +209,51 @@ const EventGalleryPage = () => {
         )}
       </div>
 
-      {/* Media Preview Overlay */}
       {previewMedia && (
         <div className="preview-overlay" onClick={handleClosePreview}>
-          <div className="preview-content" onClick={(e) => e.stopPropagation()}>
-            <button 
-              className="close-btn" 
+          <div className="preview-content expanded" onClick={(e) => e.stopPropagation()}>
+            <button
+              className="close-btn"
               onClick={handleClosePreview}
               aria-label="Close preview"
             >
               ×
             </button>
-      
-            {previewMedia.mediaType === 'image' && (
-              <button
-                className="download-btn"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleDownload(previewMedia.url);
-                }}
-                aria-label="Download image"
-              >
-                <FaDownload />
-              </button>
-            )}
-      
-            {previewMedia.mediaType === 'image' ? (
-              <img
-                src={previewMedia.url}
-                alt="Preview"
-                className="no-border-preview"
-              />
-            ) : (
-              <video src={previewMedia.url} controls />
-            )}
-      
-            <div className="preview-details">
-              {previewMedia.caption && <p className="caption">{previewMedia.caption}</p>}
-              {previewMedia.uploaderId?.name && (
-                <p className="uploader">Uploaded by: {previewMedia.uploaderId.name}</p>
-              )}
+
+            <div className="preview-layout">
+              <div className="media-preview-left">
+                {previewMedia.mediaType === 'image' ? (
+                  <>
+                    <img
+                      src={previewMedia.url}
+                      alt="Preview"
+                      className="no-border-preview"
+                    />
+                    <button
+                      className="download-btn"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDownload(previewMedia.url);
+                      }}
+                      aria-label="Download image"
+                    >
+                      <FaDownload />
+                    </button>
+                  </>
+                ) : (
+                  <video src={previewMedia.url} controls />
+                )}
+              </div>
+
+              <div className="media-preview-right">
+                {previewMedia.caption && (
+                  <p className="caption">{previewMedia.caption}</p>
+                )}
+                {previewMedia.uploaderId?.name && (
+                  <p className="uploader">Uploaded by: {previewMedia.uploaderId.name}</p>
+                )}
+                <CommentSection mediaId={previewMedia._id} />
+              </div>
             </div>
           </div>
         </div>
