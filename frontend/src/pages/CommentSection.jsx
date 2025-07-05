@@ -55,11 +55,12 @@ const CommentSection = ({ mediaId }) => {
       <h4>Comments</h4>
 
       <div className="comment-form">
-        <input
-          type="text"
+        <textarea
           value={newComment}
           placeholder="Write a comment..."
+          rows={3}
           onChange={(e) => setNewComment(e.target.value)}
+          className="comment-textarea"
         />
         <button onClick={handlePost}>Post</button>
       </div>
