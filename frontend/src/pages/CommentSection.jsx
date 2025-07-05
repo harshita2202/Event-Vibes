@@ -33,8 +33,7 @@ const CommentSection = ({ mediaId }) => {
   };
 
   const handleDelete = async (commentId) => {
-    const confirm = window.confirm('Delete this comment?');
-    if (!confirm) return;
+    if (!window.confirm("Delete this comment?")) return;
 
     try {
       await axios.delete(`/comments/${commentId}`);
@@ -85,17 +84,14 @@ const CommentSection = ({ mediaId }) => {
 const CommentItem = ({ comment, currentUser, onDelete, onEdit }) => {
   const [editing, setEditing] = useState(false);
   const [editText, setEditText] = useState(comment.text);
+  const name = comment.userId?.name || 'Unknown';
 
   const isOwner =
     currentUser?._id === comment.userId?._id || currentUser?.role === 'admin';
 
-  const name = comment.userId?.name || 'Unknown';
-  const profilePic = comment.userId?.profilePic || '/default-avatar.png';
-
   return (
     <div className="comment-item">
       <div className="comment-user">
-        <img src={profilePic} alt={name} />
         <strong>{name}</strong>
       </div>
 
