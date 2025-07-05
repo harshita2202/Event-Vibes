@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from '../utils/axiosInstance';
 import { useAuth } from '../contexts/AuthContext';
 import './CommentSection.css';
@@ -22,7 +22,6 @@ const CommentSection = ({ mediaId }) => {
 
   const handlePost = async () => {
     if (!newComment.trim()) return;
-
     try {
       const res = await axios.post(`/comments/${mediaId}`, { text: newComment });
       setComments([res.data, ...comments]);
@@ -34,7 +33,6 @@ const CommentSection = ({ mediaId }) => {
 
   const handleDelete = async (commentId) => {
     if (!window.confirm("Delete this comment?")) return;
-
     try {
       await axios.delete(`/comments/${commentId}`);
       setComments(comments.filter((c) => c._id !== commentId));
@@ -56,8 +54,9 @@ const CommentSection = ({ mediaId }) => {
     <div className="comment-section">
       <h4>Comments</h4>
 
-      <div className="comment-input">
-        <textarea
+      <div className="comment-form">
+        <input
+          type="text"
           value={newComment}
           placeholder="Write a comment..."
           onChange={(e) => setNewComment(e.target.value)}
@@ -84,42 +83,84 @@ const CommentSection = ({ mediaId }) => {
 const CommentItem = ({ comment, currentUser, onDelete, onEdit }) => {
   const [editing, setEditing] = useState(false);
   const [editText, setEditText] = useState(comment.text);
+  const [dropdownVisible, setDropdownVisible] = useState(false);
+  const menuRef = useRef(null);
   const name = comment.userId?.name || 'Unknown';
 
   const isOwner =
     currentUser?._id === comment.userId?._id || currentUser?.role === 'admin';
 
+  useEffect(() => {
+    const handleOutsideClick = (e) => {
+      if (menuRef.current && !menuRef.current.contains(e.target)) {
+        setDropdownVisible(false);
+      }
+    };
+    document.addEventListener('click', handleOutsideClick);
+    return () => document.removeEventListener('click', handleOutsideClick);
+  }, []);
+
   return (
-    <div className="comment-item">
-      <div className="comment-user">
-        <strong>{name}</strong>
-      </div>
+    <div className="comment">
+      <div className="author">{name}</div>
 
       {editing ? (
-        <div className="edit-mode">
+        <div>
           <textarea
+            className="edit-input"
             value={editText}
             onChange={(e) => setEditText(e.target.value)}
           />
-          <button
-            onClick={() => {
-              onEdit(comment._id, editText);
-              setEditing(false);
-            }}
-          >
-            Save
-          </button>
-          <button onClick={() => setEditing(false)}>Cancel</button>
+          <div className="comment-actions">
+            <button
+              onClick={() => {
+                onEdit(comment._id, editText);
+                setEditing(false);
+              }}
+            >
+              Save
+            </button>
+            <button onClick={() => setEditing(false)}>Cancel</button>
+          </div>
         </div>
       ) : (
-        <p className="comment-text">{comment.text}</p>
-      )}
+        <>
+          <p>{comment.text}</p>
+          {isOwner && (
+            <div className="comment-actions" ref={menuRef}>
+              <button
+                className="menu-button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setDropdownVisible((prev) => !prev);
+                }}
+              >
+                ⋮
+              </button>
 
-      {isOwner && !editing && (
-        <div className="comment-actions">
-          <button onClick={() => setEditing(true)}>Edit</button>
-          <button onClick={onDelete}>Delete</button>
-        </div>
+              {dropdownVisible && (
+                <div className="dropdown-menu dropdown-visible">
+                  <button
+                    onClick={() => {
+                      setEditing(true);
+                      setDropdownVisible(false);
+                    }}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => {
+                      onDelete();
+                      setDropdownVisible(false);
+                    }}
+                  >
+                    Delete
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
+        </>
       )}
     </div>
   );
