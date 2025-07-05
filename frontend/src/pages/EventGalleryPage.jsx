@@ -6,7 +6,7 @@ import './EventGalleryPage.css';
 import UploadForm from './MediaPostPage';
 import { useAuth } from '../contexts/AuthContext';
 import { FaHeart, FaRegHeart, FaDownload } from 'react-icons/fa';
-import CommentSection from './CommentSection'; // ✅ Added
+import CommentSection from './CommentSection'; 
 
 const EventGalleryPage = () => {
   const [mediaList, setMediaList] = useState([]);
@@ -212,14 +212,27 @@ const EventGalleryPage = () => {
       {previewMedia && (
         <div className="preview-overlay" onClick={handleClosePreview}>
           <div className="preview-content expanded" onClick={(e) => e.stopPropagation()}>
-            <button
-              className="close-btn"
-              onClick={handleClosePreview}
-              aria-label="Close preview"
-            >
-              ×
-            </button>
-
+            <div className="preview-header-buttons">
+              <button
+                className="download-btn"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleDownload(previewMedia.url);
+                }}
+                aria-label="Download image"
+              >
+                <FaDownload />
+              </button>
+              
+              <button
+                className="close-btn"
+                onClick={handleClosePreview}
+                aria-label="Close preview"
+              >
+                ×
+              </button>
+            </div>
+              
             <div className="preview-layout">
               <div className="media-preview-left">
                 {previewMedia.mediaType === 'image' ? (
@@ -229,29 +242,19 @@ const EventGalleryPage = () => {
                       alt="Preview"
                       className="no-border-preview"
                     />
-                    <button
-                      className="download-btn"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleDownload(previewMedia.url);
-                      }}
-                      aria-label="Download image"
-                    >
-                      <FaDownload />
-                    </button>
+                    {previewMedia.caption && (
+                      <p className="caption below-image">{previewMedia.caption}</p>
+                    )}
+                    {previewMedia.uploaderId?.name && (
+                      <p className="uploader below-image">Uploaded by: {previewMedia.uploaderId.name}</p>
+                    )}
                   </>
                 ) : (
                   <video src={previewMedia.url} controls />
                 )}
               </div>
-
+              
               <div className="media-preview-right">
-                {previewMedia.caption && (
-                  <p className="caption">{previewMedia.caption}</p>
-                )}
-                {previewMedia.uploaderId?.name && (
-                  <p className="uploader">Uploaded by: {previewMedia.uploaderId.name}</p>
-                )}
                 <CommentSection mediaId={previewMedia._id} />
               </div>
             </div>

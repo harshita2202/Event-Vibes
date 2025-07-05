@@ -85,24 +85,36 @@ const CommentItem = ({ comment, currentUser, onDelete, onEdit }) => {
   const [editing, setEditing] = useState(false);
   const [editText, setEditText] = useState(comment.text);
   const [dropdownVisible, setDropdownVisible] = useState(false);
+  const [openUpward, setOpenUpward] = useState(false);
   const menuRef = useRef(null);
+  const commentRef = useRef(null);
   const name = comment.userId?.name || 'Unknown';
 
   const isOwner =
     currentUser?._id === comment.userId?._id || currentUser?.role === 'admin';
 
+  // Detect click outside to close dropdown
   useEffect(() => {
     const handleOutsideClick = (e) => {
       if (menuRef.current && !menuRef.current.contains(e.target)) {
         setDropdownVisible(false);
       }
     };
-    document.addEventListener('click', handleOutsideClick);
-    return () => document.removeEventListener('click', handleOutsideClick);
+    document.addEventListener('click', handleOutsideClick, true);
+    return () => document.removeEventListener('click', handleOutsideClick, true);
   }, []);
 
+  // Detect if dropdown should open upward
+  useEffect(() => {
+    if (dropdownVisible && commentRef.current) {
+      const rect = commentRef.current.getBoundingClientRect();
+      const spaceBelow = window.innerHeight - rect.bottom;
+      setOpenUpward(spaceBelow < 100);
+    }
+  }, [dropdownVisible]);
+
   return (
-    <div className="comment">
+    <div className="comment" ref={commentRef}>
       <div className="author">{name}</div>
 
       {editing ? (
@@ -140,7 +152,7 @@ const CommentItem = ({ comment, currentUser, onDelete, onEdit }) => {
               </button>
 
               {dropdownVisible && (
-                <div className="dropdown-menu dropdown-visible">
+                <div className={`dropdown-menu dropdown-visible ${openUpward ? 'open-upward' : ''}`}>
                   <button
                     onClick={() => {
                       setEditing(true);
