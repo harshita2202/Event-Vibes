@@ -50,11 +50,37 @@
   word-break: break-word;
 }
 
-.comment-actions {
+.comment .comment-actions {
   position: absolute;
   top: 0.5rem;
   right: 0.5rem;
 }
+
+.comment.editing .comment-actions {
+  position: static;
+  margin-top: 0.5rem;
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-start;
+}
+
+.comment.editing .comment-actions button {
+  padding: 0.25rem 0.6rem;
+  font-size: 0.85rem;
+  height: auto;
+  width: auto;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background-color: #5cbca7;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.comment.editing .comment-actions button:hover {
+  background-color: #48a693;
+}
+
 
 .menu-button {
   background: none;

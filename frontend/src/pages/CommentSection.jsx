@@ -114,11 +114,11 @@ const CommentItem = ({ comment, currentUser, onDelete, onEdit }) => {
   }, [dropdownVisible]);
 
   return (
-    <div className="comment" ref={commentRef}>
+    <div className={`comment ${editing ? 'editing' : ''}`} ref={commentRef}>
       <div className="author">{name}</div>
-
+    
       {editing ? (
-        <div>
+        <>
           <textarea
             className="edit-input"
             value={editText}
@@ -135,7 +135,7 @@ const CommentItem = ({ comment, currentUser, onDelete, onEdit }) => {
             </button>
             <button onClick={() => setEditing(false)}>Cancel</button>
           </div>
-        </div>
+        </>
       ) : (
         <>
           <p>{comment.text}</p>
@@ -150,7 +150,7 @@ const CommentItem = ({ comment, currentUser, onDelete, onEdit }) => {
               >
                 ⋮
               </button>
-
+              
               {dropdownVisible && (
                 <div className={`dropdown-menu dropdown-visible ${openUpward ? 'open-upward' : ''}`}>
                   <button
